@@ -1,4 +1,4 @@
-# PyChemFormula (v0.2.0)
+# ChemFormula (v1.2.0)
 
 <details>
 <summary>Table of Content</summary>
@@ -12,30 +12,30 @@
 </details>
 
 ## Short Description
-**PyChemFormula** is a Python class for working with chemical formulas. It allows parsing chemical formulas and generating predefined (LaTeX, HTML) or customized formatted output strings, e. g. <span>[Cu(NH<sub>3</sub>)<sub>4</sub>]SO<sub>4</sub>&sdot;H<sub>2</sub>O</span>. **PyChemFormula** is also calculating the formula weight and thus enabling stoichiometric calculations with formula objects. Atomic weights are based on IUPAC recommendations (see [Atomic Weight Data](#atomic-weight-data)).
+**ChemFormula** is a Python class for working with chemical formulas. It allows parsing chemical formulas and generating predefined (LaTeX, HTML) or customized formatted output strings, e. g. <span>[Cu(NH<sub>3</sub>)<sub>4</sub>]SO<sub>4</sub>&sdot;H<sub>2</sub>O</span>. **ChemFormula** is also calculating the formula weight and thus enabling stoichiometric calculations with formula objects. Atomic weights are based on IUPAC recommendations (see [Atomic Weight Data](#atomic-weight-data)).
 
 
 ## How to install and uninstall? 
-**PyChemFormula** can be installed from this source by calling
+**ChemFormula** can be installed from this source by calling
 
 	python setup.py install
 
 <!--or from the [Python Package Index (PyPI)](https://pypi.org/) repository by calling
 
-	pip install PyChemFormula
+	pip install ChemFormula
 -->
-In order to uninstall **PyChemFormula** from your local environment use
+In order to uninstall **ChemFormula** from your local environment use
 
-	pip uninstall PyChemFormula
+	pip uninstall ChemFormula
 
 
 ## How to use?
-**PyChemFormula**'s class for creating a chemical formula is called `Formula`:
+**ChemFormula**'s class for creating a chemical formula is called `ChemFormula `:
 
 ```Python
-tetraamminecoppersulfate = Formula("[Cu(NH3)4]SO4.H2O")
-ethylcinnamate = Formula("(C6H5)CHCHCOOC2H5")
-uranophane = Formula("Ca(UO2)2(SiO3OH)2(H2O)5")
+tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
+ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5")
+uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2(H2O)5")
 ```
 
 The `Formula` class offers the following attributes/functions
@@ -77,11 +77,11 @@ The `Formula` class offers the following attributes/functions
 The following python sample script
 
 ```Python
-from PyChemFormula import Formula
+from ChemFormula import ChemFormula
 
-tetraamminecoppersulfate = Formula("[Cu(NH3)4]SO4.H2O")
-ethylcinnamate = Formula("(C6H5)CHCHCOOC2H5")
-uranophane = Formula("Ca(UO2)2(SiO3OH)2(H2O)5")
+tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
+ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5")
+uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2(H2O)5")
 
 print("\n--- Formula Depictions of Tetraamminecopper(II)-sulfate ---")
 print(" Original:      {0}".format(tetraamminecoppersulfate.OriginalFormula))
