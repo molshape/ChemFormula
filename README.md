@@ -1,4 +1,4 @@
-# ChemFormula (v1.2.1)
+# ChemFormula (v1.2.2)
 
 <details>
 <summary>Table of Content</summary>
