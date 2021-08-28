@@ -75,7 +75,8 @@ The `ChemFormula` class offers the following attributes/functions
 .SumFormula      # collapsed sum formula of .OriginalFormula with all bracketed units resolved
 
 .HillFormula     # sum formula in Hill notation (first Carbon, then Hydrogen, followed
-                 # by all other elements in alphabetical order of their chemical symbol
+                 # by all other elements in alphabetical order of their chemical symbol)
+		 # Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
 
 .FormulaWeight   # formula weight of the chemical formula in g/mol
 
