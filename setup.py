@@ -3,9 +3,12 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
 	long_description = fh.read()
 
+with open("VERSION", "r") as fileVersion:
+    strVersion = fileVersion.readline().strip()
+
 setuptools.setup(
 	name = "ChemFormula",
-	version = "1.2.2",
+	version = strVersion,
 	description = "ChemFormula is a Python class for working with chemical formulas. It allows parsing chemical formulas, generating formatted output strings and calculating formula weights.",
 	long_description = long_description,
 	long_description_content_type = "text/markdown",
