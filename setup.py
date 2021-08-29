@@ -29,5 +29,6 @@ setuptools.setup(
 	],
 	package_dir = {"": "src"},
 	py_modules = ["ChemFormula", "Elements", "CASRegistryNumber"],
+	include_package_data = True,
 	python_requires = ">=3.7"
  )
