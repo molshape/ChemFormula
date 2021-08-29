@@ -247,3 +247,19 @@ class ChemFormula:
     @property
     def HTML(self):
         return self.FormatFormula("<span class='ChemFormula'>","","","<sub>","</sub>","</span>", strMultiplySymbol="&sdot;", strChargeNegative="&ndash;", strChargePrefix="<sup>", strChargeSuffix="</sup>")
+
+    ### returns formula with unicode sub- and superscripts (₀₁₂₃₄₅₆₇₈₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻)
+    ### new in 1.2.3
+    @property
+    def Unicode(self):
+        sSubscriptNumbers = u"₀₁₂₃₄₅₆₇₈₉"
+        sSuperscriptNumbers = u"⁰¹²³⁴⁵⁶⁷⁸⁹"
+        sUnicodeFormula = self.OriginalFormula
+        sUnicodeCharge = self.TextCharge
+        # replace all numbers (0 - 9) by subscript numbers (for elemental frequencies) and superscript numbers (for charge information)
+        for iNumber in range(0,10):
+            sUnicodeFormula = sUnicodeFormula.replace(str(iNumber), sSubscriptNumbers[iNumber])
+            sUnicodeCharge = sUnicodeCharge.replace(str(iNumber), sSuperscriptNumbers[iNumber])
+        sUnicodeCharge = sUnicodeCharge.replace("+", u"⁺")
+        sUnicodeCharge = sUnicodeCharge.replace("-", u"⁻")
+        return sUnicodeFormula + sUnicodeCharge
