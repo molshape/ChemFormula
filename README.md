@@ -1,4 +1,6 @@
-# ChemFormula (v1.2.2)
+# ChemFormula
+
+![PyPI](https://img.shields.io/pypi/v/ChemFormula)
 
 <details>
 <summary>Table of Content</summary>
