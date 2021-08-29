@@ -62,6 +62,8 @@ The `ChemFormula` class offers the following attributes/functions
 
 .HTML            # formats the formula as a string that can be used in HTML
 
+.Unicode         # formats the formula with unicode subscript and superscript numbers
+
 .FormatFormula(  # custom formatting of the formula, .FormatFormula uses the following optional keyword arguments
                sFormulaPrefix = "",                        # preceeds the complete formula string
                sElementPrefix = "", sElementSuffix = "",   # encloses every chemical symbol (Prefix + Symbol + Suffix)
@@ -124,6 +126,7 @@ print(f" Print instance: {muscarine}")
 print(f" Original:       {muscarine.OriginalFormula}")
 print(f" HTML:           {muscarine.HTML}")
 print(f" LaTeX:          {muscarine.LaTeX}")
+print(f" Unicode:        {muscarine.Unicode}")
 print(f" Charge (int):   {muscarine.Charge}")
 print(f" Charge (str):   {muscarine.TextCharge}")
 print(f" Sum formula:    {muscarine.SumFormula}")
@@ -160,6 +163,7 @@ generates the following output
  Original:       ((CH3)3N)(C6H11O2)
  HTML:           <span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>
  LaTeX:          \(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}
+ Unicode:        ((CH₃)₃N)(C₆H₁₁O₂)⁺
  Charge (int):   1
  Charge (str):   +
  Sum formula:    C9H20NO2
