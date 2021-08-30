@@ -17,13 +17,13 @@ print(f" Unicode:        {muscarine.Unicode}")
 print(f" Charge (int):   {muscarine.Charge}")
 print(f" Charge (str):   {muscarine.TextCharge}")
 print(f" Sum formula:    {muscarine.SumFormula}")
-print(f" Sum HTML:       {muscarine.SumFormula.HTML}")
+print(f" Sum (HTML):     {muscarine.SumFormula.HTML}")
+print(f" Sum (Unicode):  {muscarine.SumFormula.Unicode}")
 print(f" Hill formula:   {muscarine.HillFormula}")
-print(f" Hill LaTeX:     {muscarine.HillFormula.LaTeX}")
-print(f" Hill Unicode:   {muscarine.HillFormula.Unicode}")
+print(f" Hill formula:   {muscarine.HillFormula.LaTeX}")
 
 print(f"\n--- Formula Weights Calculations with {ethylcinnamate.Name.title()} ---")
-print(f" The formula weight of {ethylcinnamate.Name} is {ethylcinnamate.FormulaWeight:.2f} g/mol.")
+print(f" The formula weight of {ethylcinnamate.Name} ({ethylcinnamate.SumFormula.Unicode}) is {ethylcinnamate.FormulaWeight:.2f} g/mol.")
 Mole = 1.4
 print(f" {Mole:.1f} mol of {ethylcinnamate.Name} weight {Mole * ethylcinnamate.FormulaWeight:.1f} g.")
 Mass = 24
