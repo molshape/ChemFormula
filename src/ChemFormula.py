@@ -19,7 +19,7 @@ class ChemFormula:
         self.__ResolvedFormula = self.__ResolveBrackets(self.__CleanFormula)
 
     def __str__(self):
-        return f"{self.OriginalFormula} {self.TextCharge}"
+        return self.OriginalFormula # f"{self.OriginalFormula} {self.TextCharge}" # has been changed with v1.2.4
 
     ### Clean up chemical formula, i. e. harmonize brackets, add quantifier "1" to bracketed units without quantifier
     def __CleanUpFormula(self):
@@ -112,7 +112,7 @@ class ChemFormula:
         for sElement, sFreq in self.Element.items():
             sFormula += sElement # element symbol
             if sFreq > 1: sFormula += str(sFreq) # add multipliers when they are greater than 1
-        return str(sFormula)
+        return ChemFormula(str(sFormula), self.Charge, self.Name) # has been changed with 1.2.4
 
     ### Generate sum formula as a string (include multiplier 1 if bVerbose == True)
     ### Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
@@ -135,7 +135,7 @@ class ChemFormula:
         for sElement, sFreq in dictHill.items():
             sFormula += sElement # element symbol
             if sFreq > 1: sFormula += str(sFreq) # add multipliers when they are greater than 1 
-        return str(sFormula)
+        return ChemFormula(str(sFormula), self.Charge, self.Name) # has been changed with 1.2.4
 
     ### Returns the formula weight of the formula object
     @property
@@ -208,7 +208,7 @@ class ChemFormula:
     ### Returns the CAS registry number of the formula object
     @property
     def CAS(self):
-        return self.__CAS
+        return str(self.__CAS)
     
     ### Checks, whether the CAS registry number is valid by using the CAS class from CASRegistryNumber.py
     @CAS.setter
