@@ -3,7 +3,7 @@ from ChemFormula import ChemFormula
 coffein = ChemFormula("C8H10N4O2", intCharge = 0, strName = "coffein", CAS = 58_08_2) #"58-08-2") #58_08_2)
 
 print("\n--- Formula Depictions of coffein ---")
-print(f" Name:           {coffein.Name}")
+print(f" Name:           {coffein.Name} ({coffein.SumFormula.Unicode})")
 print(f" CAS RN:         {coffein.CAS}")
 print(f" CAS RN (int):   {coffein.CASint}")
 print(f" Print instance: {coffein.OriginalFormula}")
