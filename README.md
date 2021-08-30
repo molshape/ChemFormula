@@ -58,11 +58,11 @@ The `ChemFormula` class offers the following attributes/functions
 ```Python
 .OriginalFormula # original chemical formula used to create the chemical formula object
 
-.LaTeX           # formats the formula as a string that can be used in LaTeX
+.LaTeX           # formats the formula of a ChemFormula object as a string that can be used in LaTeX
 
-.HTML            # formats the formula as a string that can be used in HTML
+.HTML            # formats the formula of a ChemFormula object as a string that can be used in HTML
 
-.Unicode         # formats the formula with unicode subscript and superscript numbers
+.Unicode         # formats the formula of a ChemFormula object with unicode subscript and superscript numbers
 
 .FormatFormula(  # custom formatting of the formula, .FormatFormula uses the following optional keyword arguments
                sFormulaPrefix = "",                        # preceeds the complete formula string
@@ -76,10 +76,12 @@ The `ChemFormula` class offers the following attributes/functions
 	       strChargeNegative = "-"                     # symbol for a negative charge
 	       )
 
-.SumFormula      # collapsed sum formula of .OriginalFormula with all bracketed units resolved
+.SumFormula      # collapsed sum formula of .OriginalFormula with all bracketed units resolved as a ChemFormula object,
+                 # i.e. use .SumFormula.HTML to retrive an HTML representation of the sum formula
 
-.HillFormula     # sum formula in Hill notation (first Carbon, then Hydrogen, followed
-                 # by all other elements in alphabetical order of their chemical symbol)
+.HillFormula     # sum formula in Hill notation as a ChemFormula object, i.e. use .HillFormula.Unicode to retrive
+                 # a Unicode representation of the Hill formula (first Carbon, then Hydrogen (if carbon is present),
+		 # followed by all other elements in alphabetical order of their chemical symbol)
 		 # Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
 
 .FormulaWeight   # formula weight of the chemical formula in g/mol
@@ -130,10 +132,13 @@ print(f" Unicode:        {muscarine.Unicode}")
 print(f" Charge (int):   {muscarine.Charge}")
 print(f" Charge (str):   {muscarine.TextCharge}")
 print(f" Sum formula:    {muscarine.SumFormula}")
+print(f" Sum (HTML):     {muscarine.SumFormula.HTML}")
+print(f" Sum (Unicode):  {muscarine.SumFormula.Unicode}")
 print(f" Hill formula:   {muscarine.HillFormula}")
+print(f" Hill formula:   {muscarine.HillFormula.LaTeX}")
 
 print(f"\n--- Formula Weights Calculations with {ethylcinnamate.Name.title()} ---")
-print(f" The formula weight of {ethylcinnamate.Name} is {ethylcinnamate.FormulaWeight:.2f} g/mol.")
+print(f" The formula weight of {ethylcinnamate.Name} ({ethylcinnamate.SumFormula.Unicode}) is {ethylcinnamate.FormulaWeight:.2f} g/mol.")
 Mole = 1.4
 print(f" {Mole:.1f} mol of {ethylcinnamate.Name} weight {Mole * ethylcinnamate.FormulaWeight:.1f} g.")
 Mass = 24
@@ -159,7 +164,7 @@ generates the following output
 
 ```
 --- Formula Depictions of L-(+)-Muscarine ---
- Print instance: ((CH3)3N)(C6H11O2) +
+ Print instance: ((CH3)3N)(C6H11O2)
  Original:       ((CH3)3N)(C6H11O2)
  HTML:           <span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>
  LaTeX:          \(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}
@@ -167,10 +172,13 @@ generates the following output
  Charge (int):   1
  Charge (str):   +
  Sum formula:    C9H20NO2
+ Sum (HTML):     <span class='ChemFormula'>C<sub>9</sub>H<sub>20</sub>NO<sub>2</sub><sup>+</sup></span>
+ Sum (Unicode):  C₉H₂₀NO₂⁺
  Hill formula:   C9H20NO2
+ Hill formula:   \textnormal{C}_{9}\textnormal{H}_{20}\textnormal{N}\textnormal{O}_{2}^{+}
 
 --- Formula Weights Calculations with Ethyl Cinnamate ---
- The formula weight of ethyl cinnamate is 176.21 g/mol.
+ The formula weight of ethyl cinnamate (C₁₁H₁₂O₂) is 176.21 g/mol.
  1.4 mol of ethyl cinnamate weight 246.7 g.
  24.0 g of ethyl cinnamate corresponds to 136.2 mmol.
  The elemental composition of ethyl cinnamate is as follows:
