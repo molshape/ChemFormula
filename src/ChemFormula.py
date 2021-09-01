@@ -8,7 +8,7 @@ class ChemFormula:
     def __init__(self, strFormula, intCharge = 0, strName = None, CAS = None):
         # Input information
         self.OriginalFormula = strFormula
-        if strName: self.Name = strName
+        self.Name = strName if strName else None
         # Charge information
         self.Charge = intCharge
         # CAS information
@@ -18,8 +18,33 @@ class ChemFormula:
         self.__CheckFormula(self.__CleanFormula)
         self.__ResolvedFormula = self.__ResolveBrackets(self.__CleanFormula)
 
+    ### OriginalFormula as standard string output
     def __str__(self):
         return self.OriginalFormula # has been changed with v1.2.4
+
+    ### Test if two chemical formla objects are identical
+    def __eq__(self, other):
+        # two chemical formula objects are considered to be equal if they have the same chemical composition (in Hill notation),
+        # the same charge, and the same CAS registry number (if provided)
+        return (str(self.HillFormula) == str(other.HillFormula) and self.Charge == other.Charge and self.CASint == other.CASint)
+
+    ### Compares two formulas with respect to their lexical sorting according to Hill's notation
+    def __lt__(self, other):
+        tupElementsSelf = tuple(self.HillFormula.Element.items())
+        tupElementsOther = tuple(other.HillFormula.Element.items())
+        # cycle through the elements in Hill notation
+        for i in range(0,min(len(tupElementsSelf), len(tupElementsOther))):
+            # first check for the alphabetical sorting of the element symbol
+            if tupElementsSelf[i][0].lower() < tupElementsOther[i][0].lower(): return True
+            if tupElementsSelf[i][0].lower() > tupElementsOther[i][0].lower(): return False
+            # if the element symbol is identical, check the frequency of that element
+            if tupElementsSelf[i][0] == tupElementsOther[i][0] and tupElementsSelf[i][1] < tupElementsOther[i][1]: return True
+            if tupElementsSelf[i][0] == tupElementsOther[i][0] and tupElementsSelf[i][1] > tupElementsOther[i][1]: return False
+            # if everything to this point is identical then:
+            # the shorter formula (with less elements) is always lesser than the longer formula (with more elements)
+            if len(tupElementsSelf)-1 == i and len(tupElementsOther)-1 > i: return True
+        # if everything has failed so far then Self > Other
+        return False
 
     ### Clean up chemical formula, i. e. harmonize brackets, add quantifier "1" to bracketed units without quantifier
     def __CleanUpFormula(self):
@@ -112,7 +137,7 @@ class ChemFormula:
         for sElement, sFreq in self.Element.items():
             sFormula += sElement # element symbol
             if sFreq > 1: sFormula += str(sFreq) # add multipliers when they are greater than 1
-        return ChemFormula(str(sFormula), self.Charge, self.Name) # has been changed with v1.2.4
+        return ChemFormula(str(sFormula), self.Charge, self.Name, self.CASint) # has been changed with v1.2.4
 
     ### Generate sum formula as a string (include multiplier 1 if bVerbose == True)
     ### Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
@@ -135,7 +160,7 @@ class ChemFormula:
         for sElement, sFreq in dictHill.items():
             sFormula += sElement # element symbol
             if sFreq > 1: sFormula += str(sFreq) # add multipliers when they are greater than 1 
-        return ChemFormula(str(sFormula), self.Charge, self.Name) # has been changed with v1.2.4
+        return ChemFormula(str(sFormula), self.Charge, self.Name, self.CASint) # has been changed with v1.2.4
 
     ### Returns the formula weight of the formula object
     @property
@@ -218,12 +243,12 @@ class ChemFormula:
     ### Returns the CAS registry number as an integer
     @property
     def CASint(self):
-        return self.__CASint
+        return self.__CASint if hasattr(self, "CAS") else None
 
     ### Sets the CAS registry number as an integer
     @CASint.setter
     def CASint(self, CAS_RN):
-        self.__CASint = CAS(CAS_RN).CASint
+        self.__CASint = CAS(CAS_RN).CASint if hasattr(self, "CAS") else None
 
     ### Formats formula in customized strings
     def FormatFormula(self, strFormulaPrefix = "", strElementPrefix = "", strElementSuffix = "", strFreqPrefix = "", strFreqSuffix = "", strFormulaSuffix = "", strBracketPrefix = "", strBracketSuffix = "", strMultiplySymbol = "", strChargePrefix = "", strChargeSuffix = "", strChargePositive = "+", strChargeNegative = "-"):
