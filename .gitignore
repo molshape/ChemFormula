@@ -130,6 +130,7 @@ dmypy.json
 
 # Custom Additions
 .vs/
+.vscode/
 local/
 MANIFEST.in
 pyproject.toml
