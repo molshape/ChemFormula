@@ -1,6 +1,6 @@
 from ChemFormula import ChemFormula
 
-coffein = ChemFormula("C8H10N4O2", Charge = 0, Name = "coffein", CAS = 58_08_2)
+caffeine = ChemFormula("C8H10N4O2", Charge = 0, Name = "caffeine", CAS = 58_08_2)
 theine = ChemFormula("(C5N4H)O2(CH3)3", Name = "theine", CAS = "58-08-2")
 guaranine = ChemFormula("C5N4HO2(CH3)3", Name = "guaranine")
 methyltheobromine = ChemFormula("C7H7N4O2(CH3)", Name="methyltheobromine")
@@ -19,8 +19,8 @@ hydrocarbon7 = ChemFormula("C6H12S2O3")
 
 hydrocarbons = [hydrocarbon1, hydrocarbon2, hydrocarbon3, hydrocarbon4, hydrocarbon5, hydrocarbon6, hydrocarbon7, ChemFormula("CaCO3"), ChemFormula("Na3PO4"), ChemFormula("Al(OH)3")]
 
-print(f"{coffein.Name.capitalize()} and {theine.Name} are", end=" ")
-print("identical.") if coffein == theine else print("not identical.")
+print(f"{caffeine.Name.capitalize()} and {theine.Name} are", end=" ")
+print("identical.") if caffeine == theine else print("not identical.")
 
 print(f"{guaranine.Name.capitalize()} and {methyltheobromine.Name} are", end=" ")
 print("identical.") if guaranine == methyltheobromine else print("not identical.")
@@ -46,7 +46,7 @@ for position, item in enumerate(sorted(hydrocarbons), start = 1):
 
 ### OUTPUT:
 #
-# Coffein and theine are identical.
+# Caffeine and theine are identical.
 # Guaranine and methyltheobromine are identical.
 # Methyltheobromine and theobromine are not identical.
 # L-lactic acid and D-lactic acid are not identical.
