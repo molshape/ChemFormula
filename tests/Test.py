@@ -1,12 +1,12 @@
 ﻿from ChemFormula import ChemFormula
 
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
-ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5", strName="ethyl cinnamate")
+ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5", Name = "ethyl cinnamate")
 
-uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5", strName="Uranophane")
-muscarine = ChemFormula("((CH3)3N)(C6H11O2)", 1, "L-(+)-Muscarine")
+uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5", Name = "Uranophane")
+muscarine = ChemFormula("((CH3)3N)(C6H11O2)", Charge = 1, Name = "L-(+)-Muscarine")
 
-coffein = ChemFormula("C8H10N4O2", strName="coffein", CAS = 58_08_2)
+caffeine = ChemFormula("C8H10N4O2", Name = "caffeine", CAS = 58_08_2)
 
 print(f"\n--- Formula Depictions of {muscarine.Name} ---")
 print(f" Print instance: {muscarine}")
@@ -42,4 +42,42 @@ print("\n--- Accessing Single Elements through FormulaObject.Element[\"Element_S
 print(f" Tetraamminecopper(II)-sulfate contains {tetraamminecoppersulfate.Element['N']} nitrogen atoms.")
 
 print("\n--- CAS Registry Number ---")
-print(f" {coffein.Name.capitalize()} has the CAS RN {coffein.CAS} (or as an integer: {coffein.CASint}).\n")
+print(f" {caffeine.Name.capitalize()} has the CAS RN {caffeine.CAS} (or as an integer: {caffeine.CASint}).\n")
+
+### OUTPUT:
+#
+# --- Formula Depictions of L-(+)-Muscarine ---
+#  Print instance: ((CH3)3N)(C6H11O2)
+#  Original:       ((CH3)3N)(C6H11O2)
+#  HTML:           <span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>   
+#  LaTeX:          \(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}
+#  Unicode:        ((CH₃)₃N)(C₆H₁₁O₂)⁺
+#  Charge (int):   1
+#  Charge (str):   +
+#  Sum formula:    C9H20NO2
+#  Sum (HTML):     <span class='ChemFormula'>C<sub>9</sub>H<sub>20</sub>NO<sub>2</sub><sup>+</sup></span>
+#  Sum (Unicode):  C₉H₂₀NO₂⁺
+#  Hill formula:   C9H20NO2
+#  Hill formula:   \textnormal{C}_{9}\textnormal{H}_{20}\textnormal{N}\textnormal{O}_{2}^{+}
+#
+# --- Formula Weights Calculations with Ethyl Cinnamate ---
+#  The formula weight of ethyl cinnamate (C₁₁H₁₂O₂) is 176.21 g/mol.
+#  1.4 mol of ethyl cinnamate weight 246.7 g.
+#  24.0 g of ethyl cinnamate corresponds to 136.2 mmol.
+#  The elemental composition of ethyl cinnamate is as follows:
+#    C : 74.98 %
+#    H :  6.86 %
+#    O : 18.16 %
+#
+# --- Uranophane and L-(+)-Muscarine ---
+#  Yes, Uranophane is radioactive.
+#  No, Uranophane is not charged.
+#  No, L-(+)-Muscarine is not radioactive.
+#  Yes, L-(+)-Muscarine is charged.
+#
+# --- Accessing Single Elements through FormulaObject.Element["Element_Symbol"] ---
+#  Tetraamminecopper(II)-sulfate contains 4 nitrogen atoms.
+#
+# --- CAS Registry Number ---
+#  Caffeine has the CAS RN 58-08-2 (or as an integer: 58082).
+#
