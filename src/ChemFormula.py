@@ -1,5 +1,6 @@
 import re
 import Elements
+from collections import defaultdict
 from CASRegistryNumber import CAS
 
 ### Class for chemical formula objects 
@@ -8,7 +9,7 @@ class ChemFormula:
     def __init__(self, strFormula, intCharge = 0, strName = None, CAS = None):
         # Input information
         self.OriginalFormula = strFormula
-        self.Name = strName if strName else None
+        self.Name = None if strName is None else strName
         # Charge information
         self.Charge = intCharge
         # CAS information
@@ -115,7 +116,9 @@ class ChemFormula:
     def Element(self):
         # find all occurrences of one capital letter, possibly one lower case letter and some multiplier number
         # Note: a multiplier number is always present in resolved formulas
-        dictFormula = {}
+        dictFormula = defaultdict(
+            lambda: 0
+        )  # if element symbol does not exist, set start frequency to 0
         lstElementFreq = re.findall("[A-Z]{1}[a-z]{0,1}\d+", self.__ResolvedFormula)
         # separate for each occurrence the letter portion from the number portion (if any)  
         for sElementFreq in lstElementFreq:
@@ -124,10 +127,7 @@ class ChemFormula:
             sElement = lstElementFreqSep.group(1)
             sFreq = lstElementFreqSep.group(2)
             # create a dictionary with element symbols as keys and element frequencies as values
-            if sElement in dictFormula:
-                dictFormula[sElement] += int(sFreq)
-            else:
-                dictFormula[sElement] = int(sFreq)
+            dictFormula[sElement] += int(sFreq)
         return dict(dictFormula)
 
     ### Generate sum formula as a string
