@@ -9,7 +9,8 @@
 2. [How to install and uninstall?](#how-to-install-and-uninstall)
 3. [How to use?](#how-to-use)
 4. [Examples](#examples)
-5. [Atomic Weight Data](#atomic-weight-data)
+5. [Comparing and Sorting](#comparing-and-sorting-of-chemical-formulas)
+6. [Atomic Weight Data](#atomic-weight-data)
 	
 </details>
 
@@ -33,9 +34,9 @@ In order to uninstall **ChemFormula** from your local environment use
 ```Python
 from ChemFormula import ChemFormula
 
-objChemFormula = ChemFormula(strFormula,
-                             intCharge = 0,
-			     strName = None,
+objChemFormula = ChemFormula(Formula,
+                             Charge = 0,
+			     Name = None,
 			     CAS = None)
 ```
 
@@ -46,11 +47,11 @@ ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5")
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
 uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5")
 
-muscarine = ChemFormula("((CH3)3N)(C6H11O2)", intCharge = 1, "L-(+)-Muscarine")
+muscarine = ChemFormula("((CH3)3N)(C6H11O2)", Charge = 1, Name = "L-(+)-Muscarine")
 pyrophosphate = ChemFormula("P2O7", -4)
 
-coffein = ChemFormula("C8H10N4O2", strName = "coffein", CAS = 58_08_2)
-teein = ChemFormula("C8H10N4O2", strName = "teein", CAS = "58-08-2")
+caffeine = ChemFormula("C8H10N4O2", Name = "caffeine", CAS = 58_08_2)
+theine = ChemFormula("C8H10N4O2", Name = "theine", CAS = "58-08-2")
 ```
 
 The `ChemFormula` class offers the following attributes/functions
@@ -116,12 +117,12 @@ The following python sample script
 from ChemFormula import ChemFormula
 
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
-ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5", strName="ethyl cinnamate")
+ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5", Name = "ethyl cinnamate")
 
-uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5", strName="Uranophane")
-muscarine = ChemFormula("((CH3)3N)(C6H11O2)", 1, "L-(+)-Muscarine")
+uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5", Name = "Uranophane")
+muscarine = ChemFormula("((CH3)3N)(C6H11O2)", Charge = 1, Name = "L-(+)-Muscarine")
 
-coffein = ChemFormula("C8H10N4O2", strName="coffein", CAS = 58_08_2)
+caffeine = ChemFormula("C8H10N4O2", Name = "caffeine", CAS = 58_08_2)
 
 print(f"\n--- Formula Depictions of {muscarine.Name} ---")
 print(f" Print instance: {muscarine}")
@@ -157,7 +158,7 @@ print("\n--- Accessing Single Elements through FormulaObject.Element[\"Element_S
 print(f" Tetraamminecopper(II)-sulfate contains {tetraamminecoppersulfate.Element['N']} nitrogen atoms.")
 
 print("\n--- CAS Registry Number ---")
-print(f" {coffein.Name.capitalize()} has the CAS RN {coffein.CAS} (or as an integer: {coffein.CASint}).\n")
+print(f" {caffeine.Name.capitalize()} has the CAS RN {caffeine.CAS} (or as an integer: {caffeine.CASint}).\n")
 ```
 
 generates the following output
@@ -196,9 +197,55 @@ generates the following output
  Tetraamminecopper(II)-sulfate contains 4 nitrogen atoms.
 
 --- CAS Registry Number ---
- Coffein has the CAS RN 58-08-2 (or as an integer: 58082).
+ Caffeine has the CAS RN 58-08-2 (or as an integer: 58082).
  ```
 
+## Comparing and Sorting of Chemical Formulas
+
+**ChemFormula** allows comparing and sorting of chemical formula objects. Chemical formula objects can be compared with the `==` operator. Two chemical formula objects are considered equal, if they have the same chemical composition (i.e. the same sum formula) and the same charge. If a CAS number is specified, the CAS number of both objects must also be identical.
+
+Formulas will be sorted into lexicographical order with reference to the Hill notation ([Edwin A. Hill, *J. Am. Chem. Soc.*, **1900**, *22*(8), 478-494](https://doi.org/10.1021/ja02046a005)). All chemical symbols are sorted alphabetically, with carbon and hydrogen moved to the top position, if carbon atoms are present. Elements with different element frequencies are sorted numerically in ascending order.
+
+```python
+from ChemFormula import ChemFormula
+
+caffeine = ChemFormula("C8H10N4O2", Name = "caffeine", CAS = 58_08_2)
+theine = ChemFormula("(C5N4H)O2(CH3)3", Name = "theine", CAS = "58-08-2")
+
+l_lacticacid = ChemFormula("CH3(CHOH)COOH", 0, "L-lactic acid", CAS = 79_33_4)
+d_lacticacid = ChemFormula("CH3(CHOH)COOH", 0, "D-lactic acid", CAS = 10326_41_7)
+
+hydrocarbons = [ChemFormula("C3H5"), ChemFormula("C6H12O6"), ChemFormula("C6H12O5S"), ChemFormula("C3H5O"),
+                ChemFormula("C4H5"), ChemFormula("C6H12S6"), ChemFormula("C6H12S2O3")]
+
+print(f"\n--- Comparing {caffeine.Name.capitalize()} with {theine.Name.capitalize()} and Lactic Acid Isomers ---")
+print(f" {caffeine.Name.capitalize()} and {theine.Name} are", end=" ")
+print("identical.") if caffeine == theine else print("not identical.")
+print(f" {l_lacticacid.Name} and {d_lacticacid.Name} are", end=" ")
+print("identical.") if l_lacticacid == d_lacticacid else print("not identical.")
+
+print("\n--- Lexical Sorting of Chemical Formulas via Hill Notation ---")
+for position, item in enumerate(sorted(hydrocarbons), start = 1):
+    print(f"{position:>3}. {item.HillFormula.Unicode}")
+```
+
+generates the following output
+
+```
+--- Comparing Caffeine with Theine and Lactic Acid Isomers ---
+ Caffeine and theine are identical.
+ L-lactic acid and D-lactic acid are not identical.
+
+--- Lexical Sorting of Chemical Formulas via Hill Notation ---
+  1. C₃H₅
+  2. C₃H₅O
+  3. C₄H₅
+  4. C₆H₁₂O₃S₂
+  5. C₆H₁₂O₅S
+  6. C₆H₁₂O₆
+  7. C₆H₁₂S₆
+ ```
+ 
 ## Atomic Weight Data
 
 All atomic weights are taken from the IUPAC Commission on Isotopic Abundances and Atomic Weights and are based on the following reports and publications:
