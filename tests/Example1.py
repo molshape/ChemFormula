@@ -2,7 +2,7 @@ from ChemFormula import ChemFormula
 
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
 ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5")
-uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2(H2O)5", strName = "Uranophane")
+uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2(H2O)5", Name = "Uranophane")
 
 print("\n--- Formula Depictions of Tetraamminecopper(II)-sulfate ---")
 print(f" Print instance: {tetraamminecoppersulfate.OriginalFormula}")
@@ -44,7 +44,7 @@ print(f" Cupric sulfate contains {tetraamminecoppersulfate.Element['N']} nitroge
 #  Custom format:  --> [Cu(NH_<3>)_<4>]SO_<4> * H_<2>O <--
 #  Sum formula:    CuN4H14SO5
 #  Hill formula:   CuH14N4O5S
-# 
+#
 # --- Formula Weights Calculations with Ethyl Cinnamate ---
 #  The formula weight of ethyl cinnamate is 176.21 g/mol.
 #  1.4 mol of ethyl cinnamate weight 246.7 g.
@@ -53,11 +53,11 @@ print(f" Cupric sulfate contains {tetraamminecoppersulfate.Element['N']} nitroge
 #    C : 74.98 %
 #    H :  6.86 %
 #    O : 18.16 %
-# 
+#
 # --- Is Uranophane Radioactive and Charged? ---
 #  Yes, Uranophane is radioactive.
 #  No, Uranophane is not charged.
-# 
+#
 # --- Accessing Single Elements through FormulaObject.Element['Element_Symbol'] ---
 #  Cupric sulfate contains 4 nitrogen atoms.
 #

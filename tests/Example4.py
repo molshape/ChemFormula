@@ -1,10 +1,10 @@
 from ChemFormula import ChemFormula
 
-coffein = ChemFormula("C8H10N4O2", intCharge = 0, strName = "coffein", CAS = 58_08_2)
-theine = ChemFormula("(C5N4H)O2(CH3)3", strName = "theine", CAS = "58-08-2")
-guaranine = ChemFormula("C5N4HO2(CH3)3", strName = "guaranine")
-methyltheobromine = ChemFormula("C7H7N4O2(CH3)", strName="methyltheobromine")
-theobromine = ChemFormula("C7H8N4O2", strName="theobromine")
+coffein = ChemFormula("C8H10N4O2", Charge = 0, Name = "coffein", CAS = 58_08_2)
+theine = ChemFormula("(C5N4H)O2(CH3)3", Name = "theine", CAS = "58-08-2")
+guaranine = ChemFormula("C5N4HO2(CH3)3", Name = "guaranine")
+methyltheobromine = ChemFormula("C7H7N4O2(CH3)", Name="methyltheobromine")
+theobromine = ChemFormula("C7H8N4O2", Name="theobromine")
 
 l_lacticacid = ChemFormula("CH3(CHOH)COOH", 0, "L-lactic acid", CAS = 79_33_4)
 d_lacticacid = ChemFormula("CH3(CHOH)COOH", 0, "D-lactic acid", CAS = 10326_41_7)
@@ -43,3 +43,30 @@ print(f"{hydrocarbon5.Unicode:>10} > {hydrocarbon7.HillFormula.Unicode:<10} = {h
 
 for position, item in enumerate(sorted(hydrocarbons), start = 1):
     print(f"{position:>3}. {item.HillFormula.Unicode}")
+
+### OUTPUT:
+#
+# Coffein and theine are identical.
+# Guaranine and methyltheobromine are identical.
+# Methyltheobromine and theobromine are not identical.
+# L-lactic acid and D-lactic acid are not identical.
+#
+#       C₃H₅ > C₃H₅O      = False
+#      C₃H₅O > C₃H₅       = True
+#       C₃H₅ < C₄H₅       = True
+#       C₄H₅ < C₃H₅       = False
+#    C₆H₁₂O₆ > C₆H₁₂O₅S   = True
+#    C₆H₁₂O₆ > C₆H₁₂S₆    = False
+#   C₆H₁₂O₅S > C₆H₁₂O₃S₂  = True
+#
+#   1. AlH₃O₃
+#   2. CCaO₃
+#   3. C₃H₅
+#   4. C₃H₅O
+#   5. C₄H₅
+#   6. C₆H₁₂O₃S₂
+#   7. C₆H₁₂O₅S
+#   8. C₆H₁₂O₆
+#   9. C₆H₁₂S₆
+#  10. Na₃O₄P
+#

@@ -6,12 +6,12 @@ from CASRegistryNumber import CAS
 ### Class for chemical formula objects 
 class ChemFormula:
 
-    def __init__(self, strFormula, intCharge = 0, strName = None, CAS = None):
+    def __init__(self, Formula, Charge = 0, Name = None, CAS = None):
         # Input information
-        self.OriginalFormula = strFormula
-        self.Name = None if strName is None else strName
+        self.OriginalFormula = Formula
+        self.Name = None if Name is None else Name
         # Charge information
-        self.Charge = intCharge
+        self.Charge = Charge
         # CAS information
         if CAS: self.CAS = self.CASint = CAS
         # parse chemical formula and test for consistency
@@ -21,15 +21,17 @@ class ChemFormula:
 
     ### OriginalFormula as standard string output
     def __str__(self):
-        return self.OriginalFormula # has been changed with v1.2.4
+        return self.OriginalFormula  # has been changed with v1.2.4
 
     ### Test if two chemical formla objects are identical
+    ### new in v1.2.5
     def __eq__(self, other):
         # two chemical formula objects are considered to be equal if they have the same chemical composition (in Hill notation),
         # the same charge, and the same CAS registry number (if provided)
         return (str(self.HillFormula) == str(other.HillFormula) and self.Charge == other.Charge and self.CASint == other.CASint)
 
     ### Compares two formulas with respect to their lexical sorting according to Hill's notation
+    ### new in v1.2.5
     def __lt__(self, other):
         tupElementsSelf = tuple(self.HillFormula.Element.items())
         tupElementsOther = tuple(other.HillFormula.Element.items())
@@ -55,7 +57,7 @@ class ChemFormula:
         # replace all type of brackets ("{", "[") by round brackets "("
         sFormula = re.sub("[\{\[\(]", "(", sFormula)
         sFormula = re.sub("[\)\]\}]", ")", sFormula)
-        # replace all whitespaces, dots and asterisks 
+        # replace all whitespaces, dots and asterisks
         sFormula = re.sub("[\.\s\*]+", "", sFormula)
         # search for brackets without a frequency information (...) and add a frequency of 1 => (...)1
         reBrackets = re.compile("\)(\D)")
@@ -68,13 +70,13 @@ class ChemFormula:
         for sChar in strFormula:
             if sChar == "(": iBracketCounter += 1
             if sChar == ")": iBracketCounter -= 1
-            if iBracketCounter < 0: # there are more closing brackets than opening brackets during parsing formula
+            if iBracketCounter < 0:  # there are more closing brackets than opening brackets during parsing formula
                 raise ValueError("Invalid Bracket Structure in Formula (expecting an opening bracket, but found a closing bracket)")
                 return False
-        if not iBracketCounter == 0: # number of opening brackets is not identical to the number of closing brackets
+        if not iBracketCounter == 0:  # number of opening brackets is not identical to the number of closing brackets
             raise ValueError("Invalid Bracket Structure in Formula (inconsistent number of opening and closing brackets)")
             return False
-        if re.search("[a-z]{2,}", strFormula): # at least two lowercase letters found in sequence
+        if re.search("[a-z]{2,}", strFormula):  # at least two lowercase letters found in sequence
             raise ValueError("Invalid Element Symbol (two lowercase letters found in sequence)")
             return False
         for sElement in re.findall("[A-Z]{1}[a-z]{0,1}", strFormula):
@@ -91,19 +93,19 @@ class ChemFormula:
             # find smallest bracket unit, i. e. a bracketed entity that does not contain any other brackets
             matchSmallestBracketUnit = re.search("\(([A-Za-z0-9]*)\)(\d+)", strFormula)
             # remove smallest bracket unit from original formula string using match.span() and string splicing
-            sPreMatch = strFormula[0:matchSmallestBracketUnit.span()[0]:] # string before the bracketed unit
-            sPostMatch = strFormula[matchSmallestBracketUnit.span()[1]::] # string after the bracketed unit
-            sMatch = matchSmallestBracketUnit.group(1)                  # string of the bracketed unit
-            iMatchMultiplier = int(matchSmallestBracketUnit.group(2))   # multiplier of the bracketed unit
+            sPreMatch = strFormula[0:matchSmallestBracketUnit.span()[0]:]  # string before the bracketed unit
+            sPostMatch = strFormula[matchSmallestBracketUnit.span()[1]::]  # string after the bracketed unit
+            sMatch = matchSmallestBracketUnit.group(1)                     # string of the bracketed unit
+            iMatchMultiplier = int(matchSmallestBracketUnit.group(2))      # multiplier of the bracketed unit
             # find all element symbols + (optional) element frequency occurrences
             lstElementFreq = re.findall("[A-Z]{1}[a-z]{0,1}\d*", sMatch)
-            # separate the element symbol portion from the number portion (if any) for all occurrence   
+            # separate the element symbol portion from the number portion (if any) for all occurrence
             sMatchResolved = ""
             for sElementFreq in lstElementFreq:
                 lstElementFreqSep = re.match("(\D+)(\d*)", sElementFreq)
                 sElement = lstElementFreqSep.group(1)
                 sFreq = lstElementFreqSep.group(2)
-                if not sFreq: sFreq = 1 # if no number is given, use a frequency of 1
+                if not sFreq: sFreq = 1  # if no number is given, use a frequency of 1
                 # create a resolved version of the bracketed unit and replace the bracketed unit with this resolved string
                 sMatchResolved += str(sElement) + str(int(sFreq) * iMatchMultiplier) 
             strFormula = sPreMatch + sMatchResolved + sPostMatch  
@@ -116,9 +118,7 @@ class ChemFormula:
     def Element(self):
         # find all occurrences of one capital letter, possibly one lower case letter and some multiplier number
         # Note: a multiplier number is always present in resolved formulas
-        dictFormula = defaultdict(
-            lambda: 0
-        )  # if element symbol does not exist, set start frequency to 0
+        dictFormula = defaultdict(lambda: 0)  # if element symbol does not exist, set start frequency to 0
         lstElementFreq = re.findall("[A-Z]{1}[a-z]{0,1}\d+", self.__ResolvedFormula)
         # separate for each occurrence the letter portion from the number portion (if any)  
         for sElementFreq in lstElementFreq:
@@ -135,9 +135,9 @@ class ChemFormula:
     def SumFormula(self):
         sFormula = ""
         for sElement, sFreq in self.Element.items():
-            sFormula += sElement # element symbol
-            if sFreq > 1: sFormula += str(sFreq) # add multipliers when they are greater than 1
-        return ChemFormula(str(sFormula), self.Charge, self.Name, self.CASint) # has been changed with v1.2.4
+            sFormula += sElement  # element symbol
+            if sFreq > 1: sFormula += str(sFreq)  # add multipliers when they are greater than 1
+        return ChemFormula(str(sFormula), self.Charge, self.Name, self.CASint)  # has been changed with v1.2.4
 
     ### Generate sum formula as a string (include multiplier 1 if bVerbose == True)
     ### Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
@@ -158,9 +158,9 @@ class ChemFormula:
         dictHill = dictHill | dictSortedElements
         # create String output
         for sElement, sFreq in dictHill.items():
-            sFormula += sElement # element symbol
-            if sFreq > 1: sFormula += str(sFreq) # add multipliers when they are greater than 1 
-        return ChemFormula(str(sFormula), self.Charge, self.Name, self.CASint) # has been changed with v1.2.4
+            sFormula += sElement  # element symbol
+            if sFreq > 1: sFormula += str(sFreq)  # add multipliers when they are greater than 1 
+        return ChemFormula(str(sFormula), self.Charge, self.Name, self.CASint)  # has been changed with v1.2.4
 
     ### Returns the formula weight of the formula object
     @property
@@ -168,7 +168,7 @@ class ChemFormula:
         fltFormulaWeight = 0.0
         for sElement, sFreq in self.Element.items(): fltFormulaWeight += sFreq * Elements.AtomicWeight(sElement)
         return float(fltFormulaWeight)
-    
+
     ### Calculate mass fractions for each element in the formula as a dictionary, atomic weights are taken from Elements.py
     @property
     def MassFraction(self):
@@ -181,14 +181,14 @@ class ChemFormula:
     @property
     def Radioactive(self):
         for sElement in self.Element.keys():
-            if Elements.RadioactiveElement(sElement): return True # element and therefore the formula is radioactive
-        return False # no radioactive elements found and therefore no radioactive formula
+            if Elements.RadioactiveElement(sElement): return True  # element and therefore the formula is radioactive
+        return False  # no radioactive elements found and therefore no radioactive formula
 
     ### Returns the original input formula of the formula object
     @property
     def OriginalFormula(self):
         return self.__OriginalFormula
-    
+
     ### Makes sure, that the name of the formula is a string
     @OriginalFormula.setter
     def OriginalFormula(self, sFormula):
@@ -198,7 +198,7 @@ class ChemFormula:
     @property
     def Name(self):
         return self.__Name
-    
+
     ### Makes sure, that the name of the formula is a string
     @Name.setter
     def Name(self, sName):
@@ -208,7 +208,7 @@ class ChemFormula:
     @property
     def Charge(self):
         return self.__Charge
-    
+
     ### Checks, whether the charge is valid
     @Charge.setter
     def Charge(self, intCharge):
@@ -220,7 +220,7 @@ class ChemFormula:
     def Charged(self):
         return False if self.Charge == 0 else True
 
-    ### Returns a text string of the charge 
+    ### Returns a text string of the charge
     @property
     def TextCharge(self):
         # a charge of "1+" or "1-" is printed without the number "1"
@@ -229,12 +229,12 @@ class ChemFormula:
         if not(abs(self.Charge) == 1): sCharge = str(abs(self.Charge))
         sCharge += "+" if self.Charge > 0 else "-"
         return sCharge
-    
+
     ### Returns the CAS registry number of the formula object
     @property
     def CAS(self):
         return str(self.__CAS)
-    
+
     ### Checks, whether the CAS registry number is valid by using the CAS class from CASRegistryNumber.py
     @CAS.setter
     def CAS(self, CAS_RN):
@@ -260,7 +260,7 @@ class ChemFormula:
         sCharge = self.TextCharge
         sCharge.replace("+", strChargePositive)
         sCharge.replace("-", strChargeNegative)
-        if self.Charged: return strFormulaPrefix + sFormattedFormula + strChargePrefix + sCharge + strChargeSuffix + strFormulaSuffix 
+        if self.Charged: return strFormulaPrefix + sFormattedFormula + strChargePrefix + sCharge + strChargeSuffix + strFormulaSuffix
         else: return strFormulaPrefix + sFormattedFormula + strFormulaSuffix
 
     ### returns a LaTeX representation of the formula object 
@@ -274,7 +274,7 @@ class ChemFormula:
         return self.FormatFormula("<span class='ChemFormula'>","","","<sub>","</sub>","</span>", strMultiplySymbol="&sdot;", strChargeNegative="&ndash;", strChargePrefix="<sup>", strChargeSuffix="</sup>")
 
     ### returns formula with unicode sub- and superscripts (₀₁₂₃₄₅₆₇₈₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻)
-    ### new in 1.2.3
+    ### new in v1.2.3
     @property
     def Unicode(self):
         sSubscriptNumbers = u"₀₁₂₃₄₅₆₇₈₉"
