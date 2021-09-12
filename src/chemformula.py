@@ -1,7 +1,7 @@
 import re
-import Elements
+import elements
+import casregnum
 from collections import defaultdict
-from casregnum import CAS
 
 ### Class for chemical formula objects 
 class ChemFormula:
@@ -80,7 +80,7 @@ class ChemFormula:
             raise ValueError("Invalid Element Symbol (two lowercase letters found in sequence)")
             return False
         for sElement in re.findall("[A-Z]{1}[a-z]{0,1}", strFormula):
-            if Elements.AtomicWeight(sElement) == False:
+            if elements.atomic_weight(sElement) == False:
                 raise ValueError(f"Invalid Element Symbol (unknown element symbol '{sElement}')")
                 return False
         # no error found     
@@ -164,26 +164,26 @@ class ChemFormula:
         cas_rn = None if self.CAS is None else self.CAS.cas_integer
         return ChemFormula(str(sFormula), self.Charge, self.Name, cas_rn)  # has been changed with v1.2.4
 
-    ### Returns the formula weight of the formula object
+    ### Returns the formula weight of the formula object, atomic weights are taken from elements.py
     @property
     def FormulaWeight(self):
         fltFormulaWeight = 0.0
-        for sElement, sFreq in self.Element.items(): fltFormulaWeight += sFreq * Elements.AtomicWeight(sElement)
+        for sElement, sFreq in self.Element.items(): fltFormulaWeight += sFreq * elements.atomic_weight(sElement)
         return float(fltFormulaWeight)
 
-    ### Calculate mass fractions for each element in the formula as a dictionary, atomic weights are taken from Elements.py
+    ### Calculate mass fractions for each element in the formula as a dictionary, atomic weights are taken from elements.py
     @property
     def MassFraction(self):
         dictMassFraction = {}
         for sElement, sFreq in self.Element.items():
-            dictMassFraction[sElement] = float((sFreq * Elements.AtomicWeight(sElement))/self.FormulaWeight)
+            dictMassFraction[sElement] = float((sFreq * elements.atomic_weight(sElement))/self.FormulaWeight)
         return dict(dictMassFraction) 
 
-    ### Checks, whether any element has an integer atomic weight; it is then classified as radioactive 
+    ### Checks, whether an element is classified as radioactive, radioactivitiy data is taken from elements.py
     @property
     def Radioactive(self):
         for sElement in self.Element.keys():
-            if Elements.RadioactiveElement(sElement): return True  # element and therefore the formula is radioactive
+            if elements.radioactive_element(sElement): return True  # element and therefore the formula is radioactive
         return False  # no radioactive elements found and therefore no radioactive formula
 
     ### Returns the original input formula of the formula object
@@ -240,7 +240,7 @@ class ChemFormula:
     ### Checks, whether the CAS registry number is valid by using the CAS class from CASRegistryNumber.py
     @CAS.setter
     def CAS(self, cas_rn):
-        self.__CAS = None if cas_rn is None else CAS(cas_rn)
+        self.__CAS = None if cas_rn is None else casregnum.CAS(cas_rn)
 
     ### Formats formula in customized strings
     def FormatFormula(self, strFormulaPrefix = "", strElementPrefix = "", strElementSuffix = "", strFreqPrefix = "", strFreqSuffix = "", strFormulaSuffix = "", strBracketPrefix = "", strBracketSuffix = "", strMultiplySymbol = "", strChargePrefix = "", strChargeSuffix = "", strChargePositive = "+", strChargeNegative = "-"):
