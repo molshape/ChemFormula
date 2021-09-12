@@ -2,35 +2,35 @@ from chemformula import ChemFormula
 
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
 ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5")
-uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2(H2O)5", Name = "Uranophane")
+uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2(H2O)5", name = "Uranophane")
 
 print("\n--- Formula Depictions of Tetraamminecopper(II)-sulfate ---")
-print(f" Print instance: {tetraamminecoppersulfate.OriginalFormula}")
+print(f" Print instance: {tetraamminecoppersulfate.original_formula}")
 print(f" Original:       {tetraamminecoppersulfate}")
-print(f" Charged:        {tetraamminecoppersulfate.Charged}")
-print(f" Charge (int):   {tetraamminecoppersulfate.Charge}")
-print(f" LaTeX:          {tetraamminecoppersulfate.LaTeX}")
-print(f" HTML:           {tetraamminecoppersulfate.HTML}")
-print(f" Custom format:  {tetraamminecoppersulfate.FormatFormula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ')}")
-print(f" Sum formula:    {tetraamminecoppersulfate.SumFormula}")
-print(f" Hill formula:   {tetraamminecoppersulfate.HillFormula}")
+print(f" Charged:        {tetraamminecoppersulfate.charged}")
+print(f" Charge (int):   {tetraamminecoppersulfate.charge}")
+print(f" LaTeX:          {tetraamminecoppersulfate.latex}")
+print(f" HTML:           {tetraamminecoppersulfate.html}")
+print(f" Custom format:  {tetraamminecoppersulfate.format_formula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ')}")
+print(f" Sum formula:    {tetraamminecoppersulfate.sum_formula}")
+print(f" Hill formula:   {tetraamminecoppersulfate.hill_formula}")
 
 print("\n--- Formula Weights Calculations with Ethyl Cinnamate ---")
-print(f" The formula weight of ethyl cinnamate is {ethylcinnamate.FormulaWeight:.2f} g/mol.")
+print(f" The formula weight of ethyl cinnamate is {ethylcinnamate.formula_weight:.2f} g/mol.")
 Mole = 1.4
-print(f" {Mole:.1f} mol of ethyl cinnamate weight {Mole * ethylcinnamate.FormulaWeight:.1f} g.")
+print(f" {Mole:.1f} mol of ethyl cinnamate weight {Mole * ethylcinnamate.formula_weight:.1f} g.")
 Mass = 24
-print(f" {Mass:.1f} g of ethyl cinnamate corresponds to {Mass/ethylcinnamate.FormulaWeight * 1000:.1f} mmol.")
+print(f" {Mass:.1f} g of ethyl cinnamate corresponds to {Mass/ethylcinnamate.formula_weight * 1000:.1f} mmol.")
 print(" The elemental composition of ethyl cinnamate is as follows:")
-for stringElementSymbol, floatElementFraction in ethylcinnamate.MassFraction.items():
+for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fraction.items():
 	print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
 print("\n--- Is Uranophane Radioactive and Charged? ---")
-print(f" Yes, {uranophane.Name} is radioactive.") if uranophane.Radioactive else print(f" No, {uranophane.Name} is not radioactive.")
-print(f" Yes, {uranophane.Name} is charged.") if uranophane.Charged else print(f" No, {uranophane.Name} is not charged.")
+print(f" Yes, {uranophane.name} is radioactive.") if uranophane.radioactive else print(f" No, {uranophane.name} is not radioactive.")
+print(f" Yes, {uranophane.name} is charged.") if uranophane.charged else print(f" No, {uranophane.name} is not charged.")
 
 print("\n--- Accessing Single Elements through FormulaObject.Element[\'Element_Symbol\'] ---")
-print(f" Cupric sulfate contains {tetraamminecoppersulfate.Element['N']} nitrogen atoms.\n")
+print(f" Cupric sulfate contains {tetraamminecoppersulfate.element['N']} nitrogen atoms.\n")
 
 ### OUTPUT:
 #

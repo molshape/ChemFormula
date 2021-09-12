@@ -1,48 +1,48 @@
 ﻿from chemformula import ChemFormula
 
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
-ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5", Name = "ethyl cinnamate")
+ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5", name = "ethyl cinnamate")
 
-uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5", Name = "Uranophane")
-muscarine = ChemFormula("((CH3)3N)(C6H11O2)", Charge = 1, Name = "L-(+)-Muscarine")
+uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5", name = "Uranophane")
+muscarine = ChemFormula("((CH3)3N)(C6H11O2)", charge = 1, name = "L-(+)-Muscarine")
 
-caffeine = ChemFormula("C8H10N4O2", Name = "caffeine", CAS = 58_08_2)
+caffeine = ChemFormula("C8H10N4O2", name = "caffeine", cas = 58_08_2)
 
-print(f"\n--- Formula Depictions of {muscarine.Name} ---")
+print(f"\n--- Formula Depictions of {muscarine.name} ---")
 print(f" Print instance: {muscarine}")
-print(f" Original:       {muscarine.OriginalFormula}")
-print(f" HTML:           {muscarine.HTML}")
-print(f" LaTeX:          {muscarine.LaTeX}")
-print(f" Unicode:        {muscarine.Unicode}")
-print(f" Charge (int):   {muscarine.Charge}")
-print(f" Charge (str):   {muscarine.TextCharge}")
-print(f" Sum formula:    {muscarine.SumFormula}")
-print(f" Sum (HTML):     {muscarine.SumFormula.HTML}")
-print(f" Sum (Unicode):  {muscarine.SumFormula.Unicode}")
-print(f" Hill formula:   {muscarine.HillFormula}")
-print(f" Hill formula:   {muscarine.HillFormula.LaTeX}")
+print(f" Original:       {muscarine.original_formula}")
+print(f" HTML:           {muscarine.html}")
+print(f" LaTeX:          {muscarine.latex}")
+print(f" Unicode:        {muscarine.unicode}")
+print(f" Charge (int):   {muscarine.charge}")
+print(f" Charge (str):   {muscarine.text_charge}")
+print(f" Sum formula:    {muscarine.sum_formula}")
+print(f" Sum (HTML):     {muscarine.sum_formula.html}")
+print(f" Sum (Unicode):  {muscarine.sum_formula.unicode}")
+print(f" Hill formula:   {muscarine.hill_formula}")
+print(f" Hill formula:   {muscarine.hill_formula.latex}")
 
-print(f"\n--- Formula Weights Calculations with {ethylcinnamate.Name.title()} ---")
-print(f" The formula weight of {ethylcinnamate.Name} ({ethylcinnamate.SumFormula.Unicode}) is {ethylcinnamate.FormulaWeight:.2f} g/mol.")
+print(f"\n--- Formula Weights Calculations with {ethylcinnamate.name.title()} ---")
+print(f" The formula weight of {ethylcinnamate.name} ({ethylcinnamate.sum_formula.unicode}) is {ethylcinnamate.formula_weight:.2f} g/mol.")
 Mole = 1.4
-print(f" {Mole:.1f} mol of {ethylcinnamate.Name} weight {Mole * ethylcinnamate.FormulaWeight:.1f} g.")
+print(f" {Mole:.1f} mol of {ethylcinnamate.name} weight {Mole * ethylcinnamate.formula_weight:.1f} g.")
 Mass = 24
-print(f" {Mass:.1f} g of {ethylcinnamate.Name} corresponds to {Mass/ethylcinnamate.FormulaWeight * 1000:.1f} mmol.")
-print(f" The elemental composition of {ethylcinnamate.Name} is as follows:")
-for stringElementSymbol, floatElementFraction in ethylcinnamate.MassFraction.items():
+print(f" {Mass:.1f} g of {ethylcinnamate.name} corresponds to {Mass/ethylcinnamate.formula_weight * 1000:.1f} mmol.")
+print(f" The elemental composition of {ethylcinnamate.name} is as follows:")
+for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fraction.items():
 	print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
-print(f"\n--- {uranophane.Name} and {muscarine.Name} ---")
-print(f" Yes, {uranophane.Name} is radioactive.") if uranophane.Radioactive else print(f" No, {uranophane.Name} is not radioactive.")
-print(f" Yes, {uranophane.Name} is charged.") if uranophane.Charged else print(f" No, {uranophane.Name} is not charged.")
-print(f" Yes, {muscarine.Name} is radioactive.") if muscarine.Radioactive else print(f" No, {muscarine.Name} is not radioactive.")
-print(f" Yes, {muscarine.Name} is charged.") if muscarine.Charged else print(f" No, {muscarine.Name} is not charged.")
+print(f"\n--- {uranophane.name} and {muscarine.name} ---")
+print(f" Yes, {uranophane.name} is radioactive.") if uranophane.radioactive else print(f" No, {uranophane.name} is not radioactive.")
+print(f" Yes, {uranophane.name} is charged.") if uranophane.charged else print(f" No, {uranophane.name} is not charged.")
+print(f" Yes, {muscarine.name} is radioactive.") if muscarine.radioactive else print(f" No, {muscarine.name} is not radioactive.")
+print(f" Yes, {muscarine.name} is charged.") if muscarine.charged else print(f" No, {muscarine.name} is not charged.")
 
 print("\n--- Accessing Single Elements through FormulaObject.Element[\"Element_Symbol\"] ---")
-print(f" Tetraamminecopper(II)-sulfate contains {tetraamminecoppersulfate.Element['N']} nitrogen atoms.")
+print(f" Tetraamminecopper(II)-sulfate contains {tetraamminecoppersulfate.element['N']} nitrogen atoms.")
 
 print("\n--- CAS Registry Number ---")
-print(f" {caffeine.Name.capitalize()} has the CAS RN {caffeine.CAS} (or as an integer: {caffeine.CAS.cas_integer}).\n")
+print(f" {caffeine.name.capitalize()} has the CAS RN {caffeine.cas} (or as an integer: {caffeine.cas.cas_integer}).\n")
 
 ### OUTPUT:
 #

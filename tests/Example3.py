@@ -1,21 +1,21 @@
 from chemformula import ChemFormula
 
-coffein = ChemFormula("C8H10N4O2", Charge = 0, Name = "coffein", CAS = 58_08_2)  # or use CAS = "58-08-2"
+coffein = ChemFormula("C8H10N4O2", charge = 0, name = "coffein", cas = 58_08_2)  # or use CAS = "58-08-2"
 
 print("\n--- Formula Depictions of coffein ---")
-print(f" Name:           {coffein.Name} ({coffein.SumFormula.Unicode})")
-print(f" CAS RN:         {coffein.CAS}")
-print(f" CAS RN (int):   {coffein.CAS.cas_integer}")
-print(f" Print instance: {coffein.OriginalFormula}")
+print(f" Name:           {coffein.name} ({coffein.sum_formula.unicode})")
+print(f" CAS RN:         {coffein.cas}")
+print(f" CAS RN (int):   {coffein.cas.cas_integer}")
+print(f" Print instance: {coffein.original_formula}")
 print(f" Original:       {coffein}")
-print(f" Charged:        {coffein.Charged}")
-print(f" Charge (int):   {coffein.Charge}")
-print(f" LaTeX:          {coffein.LaTeX}")
-print(f" HTML:           {coffein.HTML}")
-print(f" Custom format:  {coffein.FormatFormula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ')}")
-print(f" Sum formula:    {coffein.SumFormula}")
-print(f" Hill formula:   {coffein.HillFormula}")
-print(f" Formula Weight: {coffein.FormulaWeight:.1f} g/mol\n")
+print(f" Charged:        {coffein.charged}")
+print(f" Charge (int):   {coffein.charge}")
+print(f" LaTeX:          {coffein.latex}")
+print(f" HTML:           {coffein.html}")
+print(f" Custom format:  {coffein.format_formula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ')}")
+print(f" Sum formula:    {coffein.sum_formula}")
+print(f" Hill formula:   {coffein.hill_formula}")
+print(f" Formula Weight: {coffein.formula_weight:.1f} g/mol\n")
 
 ### OUTPUT:
 #
