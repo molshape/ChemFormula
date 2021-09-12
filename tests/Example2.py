@@ -5,7 +5,7 @@ pyrophosphate = ChemFormula("P2O7", -4)
 
 print("\n--- Formula Depictions of the L-(+)-Muscarine Ion ---")
 print(f" Print instance: {muscarine}")
-print(f" Original:       {muscarine.original_formula}")
+print(f" Formula:        {muscarine.formula}")
 print(f" Charged:        {muscarine.charged}")
 print(f" Charge (int):   {muscarine.charge}")
 print(f" Charge (str):   {muscarine.text_charge}")
@@ -18,7 +18,7 @@ print(f" Hill formula:   {muscarine.hill_formula}")
 
 print("\n--- Formula Depictions of Pyrophosphate ---")
 print(f" Print instance: {pyrophosphate}")
-print(f" Original:       {pyrophosphate.original_formula}")
+print(f" Formula:        {pyrophosphate.formula}")
 print(f" Charged:        {pyrophosphate.charged}")
 print(f" Charge (int):   {pyrophosphate.charge}")
 print(f" Charge (str):   {pyrophosphate.text_charge}")
@@ -50,7 +50,7 @@ print(f" Muscarine contains {muscarine.element['O']} oxygen atoms.\n")
 #
 # --- Formula Depictions of the L-(+)-Muscarine Ion ---
 #  Print instance: ((CH3)3N)(C6H11O2)
-#  Original:       ((CH3)3N)(C6H11O2)
+#  Formula:        ((CH3)3N)(C6H11O2)
 #  Charged:        True
 #  Charge (int):   1
 #  Charge (str):   +
@@ -63,7 +63,7 @@ print(f" Muscarine contains {muscarine.element['O']} oxygen atoms.\n")
 #
 # --- Formula Depictions of Pyrophosphate ---
 #  Print instance: P2O7
-#  Original:       P2O7
+#  Formula:        P2O7
 #  Charged:        True
 #  Charge (int):   -4
 #  Charge (str):   4-

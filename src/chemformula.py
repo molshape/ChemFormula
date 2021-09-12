@@ -3,37 +3,148 @@ import elements
 import casregnum
 from collections import defaultdict
 
+
+### Class for chemical formula strings
+class ChemFormulaString:
+    def __init__(self, formula, charge = 0):
+        self.formula = formula  # chemical formula
+        self.charge = charge    # charge of chemical formula
+        self.text_formula = self.formula + " " + self.text_charge
+
+    ### formula as standard string output
+    def __str__(self):
+        return self.formula
+
+    ### Returns formula
+    @property
+    def formula(self):
+        return self.__formula
+    
+    @formula.setter
+    def formula(self, input_formula):
+        self.__formula = str(input_formula)
+
+    ### Returns the charge of the formula object
+    @property
+    def charge(self):
+        return self.__charge
+
+    ### Checks, whether the charge is valid
+    @charge.setter
+    def charge(self, charge):
+        if isinstance(charge, int): self.__charge = charge
+        else: raise TypeError(f"Invalid Charge Value '{charge}' (expected an integer (<class 'int'>), but found {type(charge)})")
+
+    ### Boolean property whether the formula object is charged (True) or not (False)
+    @property
+    def charged(self):
+        return False if self.charge == 0 else True
+
+    ### Returns a text string of the charge
+    @property
+    def text_charge(self):
+        # a charge of "1+" or "1-" is printed without the number "1"
+        charge_output = ""
+        if self.charge == 0: return charge_output
+        if not(abs(self.charge) == 1): charge_output = str(abs(self.charge))
+        charge_output += "+" if self.charge > 0 else "-"
+        return charge_output
+
+    ### returns formula
+    @property
+    def text_formula(self):
+        return self.__text_formula
+    
+    @text_formula.setter
+    def text_formula(self, text_formula_charge):
+        self.__text_formula = str(text_formula_charge)
+
+    ### Formats formula in customized strings
+    def format_formula(self,
+                       formula_prefix = "",
+                       element_prefix = "", element_suffix = "",
+                       freq_prefix = "", freq_suffix = "",
+                       formula_suffix = "",
+                       bracket_prefix = "", bracket_suffix = "",
+                       multiply_symbol = "",
+                       charge_prefix = "", charge_suffix = "",
+                       charge_positive = "+", charge_negative = "-"
+                      ):
+        formatted_formula = re.sub("([\{\[\(\)\]\}]){1}", bracket_prefix + "\g<1>" + bracket_suffix, self.formula)
+        formatted_formula = re.sub("([A-Z]{1}[a-z]{0,1})", element_prefix + "\g<1>" + element_suffix, formatted_formula)
+        formatted_formula = re.sub(r"(\d+)", freq_prefix + "\g<1>" + freq_suffix, formatted_formula)
+        formatted_formula = re.sub("[\.\*]", multiply_symbol, formatted_formula)
+        # create charge string, by replacing + and - with the respective charge symbols
+        charge = self.text_charge
+        charge.replace("+", charge_positive)
+        charge.replace("-", charge_negative)
+        if self.charged:
+            return formula_prefix + formatted_formula + charge_prefix + charge + charge_suffix + formula_suffix
+        else:
+            return formula_prefix + formatted_formula + formula_suffix
+
+    ### returns a LaTeX representation of the formula object 
+    @property
+    def latex(self):
+        return self.format_formula("",
+                                   r"\\textnormal{", "}",
+                                   "_{", "}",
+                                   "",
+                                   r"\\",
+                                   multiply_symbol = r"\\cdot",
+                                   charge_prefix = "^{", charge_suffix = "}"
+                                  )
+
+    ### returns an HTML representation of the formula object 
+    @property
+    def html(self):
+        return self.format_formula("<span class='ChemFormula'>",
+                                   "", "",
+                                   "<sub>", "</sub>",
+                                   "</span>",
+                                   multiply_symbol="&sdot;",
+                                   charge_prefix = "<sup>", charge_suffix = "</sup>",
+                                   charge_negative = "&ndash;"
+                                  )
+
+    ### returns formula with unicode sub- and superscripts (₀₁₂₃₄₅₆₇₈₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻)
+    @property
+    def unicode(self):
+        subscript_num = u"₀₁₂₃₄₅₆₇₈₉"
+        superscript_num = u"⁰¹²³⁴⁵⁶⁷⁸⁹"
+        unicode_formula = self.formula     # start with original formula
+        unicode_charge = self.text_charge  # start with original text_charge
+        # replace all numbers (0 - 9) by subscript numbers (for elemental frequencies) and superscript numbers (for charge information)
+        for number in range(0,10):
+            unicode_formula = unicode_formula.replace(str(number), subscript_num[number])
+            unicode_charge = unicode_charge.replace(str(number), superscript_num[number])
+        unicode_charge = unicode_charge.replace("+", u"⁺")
+        unicode_charge = unicode_charge.replace("-", u"⁻")
+        return unicode_formula + unicode_charge
+
+
 ### Class for chemical formula objects 
-class ChemFormula:
+class ChemFormula(ChemFormulaString):
     def __init__(self, formula, charge = 0, name = None, cas = None):
+        ChemFormulaString.__init__(self, formula, charge)
         # Input information
-        self.original_formula = formula
         self.name = None if name is None else name
-        # Charge information
-        self.charge = charge
-        # CAS information
         self.cas = None if cas is None else cas
         # parse chemical formula and test for consistency
         self.__clean_formula = self.__clean_up_formula()
         self.__check_formula(self.__clean_formula)
         self.__resolved_formula = self.__resolve_brackets(self.__clean_formula)
 
-    ### OriginalFormula as standard string output
-    def __str__(self):
-        return self.original_formula  # has been changed with v1.2.4
-
     ### Test if two chemical formla objects are identical
-    ### new in v1.2.5
     def __eq__(self, other):
         # two chemical formula objects are considered to be equal if they have the same chemical composition (in Hill notation),
         # the same charge, and the same CAS registry number (if provided)
         return (str(self.hill_formula) == str(other.hill_formula) and self.charge == other.charge and self.cas == other.cas)
 
     ### Compares two formulas with respect to their lexical sorting according to Hill's notation
-    ### new in v1.2.5
     def __lt__(self, other):
-        elements_self = tuple(self.hill_formula.element.items())
-        elements_other = tuple(other.hill_formula.element.items())
+        elements_self = tuple(self._element_hill_sorted.items())
+        elements_other = tuple(other._element_hill_sorted.items())
         # cycle through the elements in Hill notation
         for i in range(0,min(len(elements_self), len(elements_other))):
             # first check for the alphabetical sorting of the element symbol
@@ -50,7 +161,7 @@ class ChemFormula:
 
     ### Clean up chemical formula, i. e. harmonize brackets, add quantifier "1" to bracketed units without quantifier
     def __clean_up_formula(self):
-        formula = self.original_formula
+        formula = self.formula
         # for simplicity reasons: create a (...)1 around the whole formula
         formula = "(" + formula + ")1"
         # replace all type of brackets ("{", "[") by round brackets "("
@@ -128,39 +239,41 @@ class ChemFormula:
             dict_formula[element] += int(freq)
         return dict(dict_formula)
 
-    ### Generate sum formula as a string
+    ### Return the formula as a dictionalry with (key : value) = (element symbol : element frequency) in Hill sorting
     @property
-    def sum_formula(self):
-        formula = ""
-        for element, freq in self.element.items():
-            formula += element  # element symbol
-            if freq > 1: formula += str(freq)  # add multipliers when they are greater than 1
-        cas_rn = None if self.cas is None else self.cas.cas_integer
-        return ChemFormula(str(formula), self.charge, self.name, cas_rn)  # has been changed with v1.2.4
-
-    ### Generate sum formula as a string (include multiplier 1 if bVerbose == True)
-    ### Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
-    @property
-    def hill_formula(self):
-        # sort dictionary alphabetically
+    def _element_hill_sorted(self):
         dict_sorted_elements = dict(sorted(self.element.items()))
         dict_hill_sorted_elements = {}
         formula = ""
-        # extract "C" and "H" from the original dictionary
+        # extract "C" and "H" (if "C" is also present) from the original dictionary
         if "C" in dict_sorted_elements.keys():
             dict_hill_sorted_elements["C"] = dict_sorted_elements["C"]
             del dict_sorted_elements["C"]
             if "H" in dict_sorted_elements.keys():
                 dict_hill_sorted_elements["H"] = dict_sorted_elements["H"]
                 del dict_sorted_elements["H"]
-        # create Hill dictionary by placing "C" and "H" (if "C" is also present) in front of all other elements
+        # create new Hill dictionary by placing "C" and "H" (if "C" is also present) in front of all other elements
         dict_hill_sorted_elements = dict_hill_sorted_elements | dict_sorted_elements
-        # create String output
-        for element, freq in dict_hill_sorted_elements.items():
-            formula += element  # element symbol
-            if freq > 1: formula += str(freq)  # add multipliers when they are greater than 1 
-        cas_rn = None if self.cas is None else self.cas.cas_integer
-        return ChemFormula(str(formula), self.charge, self.name, cas_rn)  # has been changed with v1.2.4
+        return dict(dict_hill_sorted_elements)
+
+    ### function to contract formula from a given (element symbol : element frequency) dictionary
+    def _contract_formula(dict_element_freq, charge):
+        formula_output = ""
+        for element, freq in dict_element_freq.items():
+            formula_output += element  # element symbol
+            if freq > 1: formula_output += str(freq)  # add multipliers when they are greater than 1
+        return ChemFormulaString(formula_output, charge)
+
+    ### Generate sum formula as a string
+    @property
+    def sum_formula(self):
+        return ChemFormula._contract_formula(self.element, self.charge)
+
+    ### Generate sum formula as a string (include multiplier 1 if bVerbose == True)
+    ### Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
+    @property
+    def hill_formula(self):
+        return ChemFormula._contract_formula(self._element_hill_sorted, self.charge)
 
     ### Returns the formula weight of the formula object, atomic weights are taken from elements.py
     @property
@@ -184,16 +297,6 @@ class ChemFormula:
             if elements.radioactive_element(sElement): return True  # element and therefore the formula is radioactive
         return False  # no radioactive elements found and therefore no radioactive formula
 
-    ### Returns the original input formula of the formula object
-    @property
-    def original_formula(self):
-        return self.__original_formula
-
-    ### Makes sure, that the name of the formula is a string
-    @original_formula.setter
-    def original_formula(self, formula):
-        self.__original_formula = str(formula)
-
     ### Returns the name of the formula
     @property
     def name(self):
@@ -204,32 +307,6 @@ class ChemFormula:
     def name(self, name):
         self.__name = str(name)
 
-    ### Returns the charge of the formula object
-    @property
-    def charge(self):
-        return self.__charge
-
-    ### Checks, whether the charge is valid
-    @charge.setter
-    def charge(self, charge):
-        if isinstance(charge, int): self.__charge = charge
-        else: raise TypeError(f"Invalid Charge Value '{charge}' (expected an integer (<class 'int'>), but found {type(charge)})")
-
-    ### Boolean property whether the formula object is charged (True) or not (False)
-    @property
-    def charged(self):
-        return False if self.charge == 0 else True
-
-    ### Returns a text string of the charge
-    @property
-    def text_charge(self):
-        # a charge of "1+" or "1-" is printed without the number "1"
-        charge = ""
-        if self.charge == 0: return charge
-        if not(abs(self.charge) == 1): charge = str(abs(self.charge))
-        charge += "+" if self.charge > 0 else "-"
-        return charge
-
     ### Returns the CAS registry number of the formula object
     @property
     def cas(self):
@@ -239,42 +316,3 @@ class ChemFormula:
     @cas.setter
     def cas(self, cas_rn):
         self.__cas = None if cas_rn is None else casregnum.CAS(cas_rn)
-
-    ### Formats formula in customized strings
-    def format_formula(self, formula_prefix = "", element_prefix = "", element_suffix = "", freq_prefix = "", freq_suffix = "", formula_suffix = "", bracket_prefix = "", bracket_suffix = "", multiply_symbol = "", charge_prefix = "", charge_suffix = "", charge_positive = "+", charge_negative = "-"):
-        formatted_formula = re.sub("([\{\[\(\)\]\}]){1}", bracket_prefix + "\g<1>" + bracket_suffix, self.original_formula)
-        formatted_formula = re.sub("([A-Z]{1}[a-z]{0,1})", element_prefix + "\g<1>" + element_suffix, formatted_formula)
-        formatted_formula = re.sub(r"(\d+)", freq_prefix + "\g<1>" + freq_suffix, formatted_formula)
-        formatted_formula = re.sub("[\.\*]", multiply_symbol, formatted_formula)
-        # create charge string, by replacing + and - with the respective charge symbols
-        charge = self.text_charge
-        charge.replace("+", charge_positive)
-        charge.replace("-", charge_negative)
-        if self.charged: return formula_prefix + formatted_formula + charge_prefix + charge + charge_suffix + formula_suffix
-        else: return formula_prefix + formatted_formula + formula_suffix
-
-    ### returns a LaTeX representation of the formula object 
-    @property
-    def latex(self):
-        return self.format_formula("", r"\\textnormal{","}","_{","}","", r"\\", multiply_symbol=r"\\cdot", charge_prefix="^{", charge_suffix="}")
-
-    ### returns an HTML representation of the formula object 
-    @property
-    def html(self):
-        return self.format_formula("<span class='ChemFormula'>","","","<sub>","</sub>","</span>", multiply_symbol="&sdot;", charge_negative="&ndash;", charge_prefix="<sup>", charge_suffix="</sup>")
-
-    ### returns formula with unicode sub- and superscripts (₀₁₂₃₄₅₆₇₈₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻)
-    ### new in v1.2.3
-    @property
-    def unicode(self):
-        subscript_num = u"₀₁₂₃₄₅₆₇₈₉"
-        superscript_num = u"⁰¹²³⁴⁵⁶⁷⁸⁹"
-        unicode_formula = self.original_formula
-        unicode_charge = self.text_charge
-        # replace all numbers (0 - 9) by subscript numbers (for elemental frequencies) and superscript numbers (for charge information)
-        for number in range(0,10):
-            unicode_formula = unicode_formula.replace(str(number), subscript_num[number])
-            unicode_charge = unicode_charge.replace(str(number), superscript_num[number])
-        unicode_charge = unicode_charge.replace("+", u"⁺")
-        unicode_charge = unicode_charge.replace("-", u"⁻")
-        return unicode_formula + unicode_charge
