@@ -1,23 +1,23 @@
-﻿from ChemFormula import ChemFormula
+﻿from chemformula import ChemFormula
 
-caffeine = ChemFormula("C8H10N4O2", Name = "caffeine", CAS = 58_08_2)
-theine = ChemFormula("(C5N4H)O2(CH3)3", Name = "theine", CAS = "58-08-2")
+caffeine = ChemFormula("C8H10N4O2", name = "caffeine", cas = 58_08_2)
+theine = ChemFormula("(C5N4H)O2(CH3)3", name = "theine", cas = "58-08-2")
 
-l_lacticacid = ChemFormula("CH3(CHOH)COOH", 0, "L-lactic acid", CAS = 79_33_4)
-d_lacticacid = ChemFormula("CH3(CHOH)COOH", 0, "D-lactic acid", CAS = 10326_41_7)
+l_lacticacid = ChemFormula("CH3(CHOH)COOH", 0, "L-lactic acid", cas = 79_33_4)
+d_lacticacid = ChemFormula("CH3(CHOH)COOH", 0, "D-lactic acid", cas = 10326_41_7)
 
 hydrocarbons = [ChemFormula("C3H5"), ChemFormula("C6H12O6"), ChemFormula("C6H12O5S"), ChemFormula("C3H5O"),
                 ChemFormula("C4H5"), ChemFormula("C6H12S6"), ChemFormula("C6H12S2O3")]
 
-print(f"\n--- Comparing {caffeine.Name.capitalize()} with {theine.Name.capitalize()} and Lactic Acid Isomers ---")
-print(f" {caffeine.Name.capitalize()} and {theine.Name} are", end=" ")
+print(f"\n--- Comparing {caffeine.name.capitalize()} with {theine.name.capitalize()} and Lactic Acid Isomers ---")
+print(f" {caffeine.name.capitalize()} and {theine.name} are", end=" ")
 print("identical.") if caffeine == theine else print("not identical.")
-print(f" {l_lacticacid.Name} and {d_lacticacid.Name} are", end=" ")
+print(f" {l_lacticacid.name} and {d_lacticacid.name} are", end=" ")
 print("identical.") if l_lacticacid == d_lacticacid else print("not identical.")
 
 print("\n--- Lexical Sorting of Chemical Formulas via Hill Notation ---")
 for position, item in enumerate(sorted(hydrocarbons), start = 1):
-    print(f"{position:>3}. {item.HillFormula.Unicode}")
+    print(f"{position:>3}. {item.hill_formula.unicode}")
 
 ### OUTPUT:
 #

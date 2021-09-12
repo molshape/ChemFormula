@@ -1,56 +1,56 @@
-from ChemFormula import ChemFormula
+from chemformula import ChemFormula
 
 muscarine = ChemFormula("((CH3)3N)(C6H11O2)", 1, "L-(+)-Muscarine")
 pyrophosphate = ChemFormula("P2O7", -4)
 
 print("\n--- Formula Depictions of the L-(+)-Muscarine Ion ---")
 print(f" Print instance: {muscarine}")
-print(f" Original:       {muscarine.OriginalFormula}")
-print(f" Charged:        {muscarine.Charged}")
-print(f" Charge (int):   {muscarine.Charge}")
-print(f" Charge (str):   {muscarine.TextCharge}")
-print(f" LaTeX:          {muscarine.LaTeX}")
-print(f" HTML:           {muscarine.HTML}")
-print(f" Unicode:        {muscarine.Unicode}")
-print(f" Custom format:  {muscarine.FormatFormula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ', '^^', '^^', '(+)', '(-)')}")
-print(f" Sum formula:    {muscarine.SumFormula}")
-print(f" Hill formula:   {muscarine.HillFormula}")
+print(f" Formula:        {muscarine.formula}")
+print(f" Charged:        {muscarine.charged}")
+print(f" Charge (int):   {muscarine.charge}")
+print(f" Charge (str):   {muscarine.text_charge}")
+print(f" LaTeX:          {muscarine.latex}")
+print(f" HTML:           {muscarine.html}")
+print(f" Unicode:        {muscarine.unicode}")
+print(f" Custom format:  {muscarine.format_formula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ', '^^', '^^', '(+)', '(-)')}")
+print(f" Sum formula:    {muscarine.sum_formula}")
+print(f" Hill formula:   {muscarine.hill_formula}")
 
 print("\n--- Formula Depictions of Pyrophosphate ---")
 print(f" Print instance: {pyrophosphate}")
-print(f" Original:       {pyrophosphate.OriginalFormula}")
-print(f" Charged:        {pyrophosphate.Charged}")
-print(f" Charge (int):   {pyrophosphate.Charge}")
-print(f" Charge (str):   {pyrophosphate.TextCharge}")
-print(f" LaTeX:          {pyrophosphate.LaTeX}")
-print(f" HTML:           {pyrophosphate.HTML}")
-print(f" Unicode:        {pyrophosphate.Unicode}")
-print(f" Custom format:  {pyrophosphate.FormatFormula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ', '^^', '^^', '(+)', '(-)')}")
-print(f" Sum formula:    {pyrophosphate.SumFormula}")
-print(f" Hill formula:   {pyrophosphate.HillFormula}")
+print(f" Formula:        {pyrophosphate.formula}")
+print(f" Charged:        {pyrophosphate.charged}")
+print(f" Charge (int):   {pyrophosphate.charge}")
+print(f" Charge (str):   {pyrophosphate.text_charge}")
+print(f" LaTeX:          {pyrophosphate.latex}")
+print(f" HTML:           {pyrophosphate.html}")
+print(f" Unicode:        {pyrophosphate.unicode}")
+print(f" Custom format:  {pyrophosphate.format_formula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ', '^^', '^^', '(+)', '(-)')}")
+print(f" Sum formula:    {pyrophosphate.sum_formula}")
+print(f" Hill formula:   {pyrophosphate.hill_formula}")
 
 print("\n--- Formula Weights Calculations with Muscarine ---")
-print(f" The formula weight of Muscarine is {muscarine.FormulaWeight:.2f} g/mol.")
+print(f" The formula weight of Muscarine is {muscarine.formula_weight:.2f} g/mol.")
 Mole = 1.4
-print(f" {Mole:.1f} mol of Muscarine weight {Mole * muscarine.FormulaWeight:.1f} g.")
+print(f" {Mole:.1f} mol of Muscarine weight {Mole * muscarine.formula_weight:.1f} g.")
 Mass = 24
-print(f" {Mass:.1f} g of Muscarine corresponds to {Mass/muscarine.FormulaWeight * 1000:.1f} mmol.")
+print(f" {Mass:.1f} g of Muscarine corresponds to {Mass/muscarine.formula_weight * 1000:.1f} mmol.")
 print(f" The elemental composition of Muscarine is as follows:")
-for stringElementSymbol, floatElementFraction in muscarine.MassFraction.items():
+for stringElementSymbol, floatElementFraction in muscarine.mass_fraction.items():
 	print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
 print("\n--- Is L-(+)-Muscarine Radioactive and Charged? ---")
-print(f" Yes, {muscarine.Name} is radioactive.") if muscarine.Radioactive else print(f" No, {muscarine.Name} is not radioactive.")
-print(f" Yes, {muscarine.Name} is charged.") if muscarine.Charged else print(f" No, {muscarine.Name} is not charged.")
+print(f" Yes, {muscarine.name} is radioactive.") if muscarine.radioactive else print(f" No, {muscarine.name} is not radioactive.")
+print(f" Yes, {muscarine.name} is charged.") if muscarine.charged else print(f" No, {muscarine.name} is not charged.")
 
 print("\n--- Accessing Single Elements through FormulaObject.Element[\'Element_Symbol\'] ---")
-print(f" Muscarine contains {muscarine.Element['O']} oxygen atoms.\n")
+print(f" Muscarine contains {muscarine.element['O']} oxygen atoms.\n")
 
 ### OUTPUT:
 #
 # --- Formula Depictions of the L-(+)-Muscarine Ion ---
 #  Print instance: ((CH3)3N)(C6H11O2)
-#  Original:       ((CH3)3N)(C6H11O2)
+#  Formula:        ((CH3)3N)(C6H11O2)
 #  Charged:        True
 #  Charge (int):   1
 #  Charge (str):   +
@@ -63,7 +63,7 @@ print(f" Muscarine contains {muscarine.Element['O']} oxygen atoms.\n")
 #
 # --- Formula Depictions of Pyrophosphate ---
 #  Print instance: P2O7
-#  Original:       P2O7
+#  Formula:        P2O7
 #  Charged:        True
 #  Charge (int):   -4
 #  Charge (str):   4-

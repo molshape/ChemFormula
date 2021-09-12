@@ -17,8 +17,8 @@ Quoted atomic weights are those suggested for materials where the origin of the 
 For radioactive elements the isotope with the longest half-life is quoted as an integer.
 '''
 
-def AtomicWeight(strElement):
-	dictAtomicWeightTable = {
+def atomic_weight(element):
+	atomic_weight_table = {
 	"H":    1.008,
 	"He":   4.002602,
 	"Li":   6.94,
@@ -139,14 +139,14 @@ def AtomicWeight(strElement):
 	"Og": 294
 	}
 	# return atomic weight of the element symbol passed to the function, False if element symbol does not exist
-	return float(dictAtomicWeightTable[strElement]) if strElement in dictAtomicWeightTable else False
+	return float(atomic_weight_table[element]) if element in atomic_weight_table else False
 
-def RadioactiveElement(strElement):
-	lstRadioactiveElements = [
+def radioactive_element(element):
+	radioactive_elements = [
 		"Tc",
 		"Po", "At", "Rn",
 		"Fr", "Ra", "Pm", "Ac", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og",
 		"Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr"
 	]
 	# element is in the list of radioactive elements => True else False
-	return True if strElement in lstRadioactiveElements else False
+	return element in radioactive_elements
