@@ -1,4 +1,4 @@
-from ChemFormula import ChemFormula
+from chemformula import ChemFormula
 
 caffeine = ChemFormula("C8H10N4O2", Charge = 0, Name = "caffeine", CAS = 58_08_2)
 theine = ChemFormula("(C5N4H)O2(CH3)3", Name = "theine", CAS = "58-08-2")

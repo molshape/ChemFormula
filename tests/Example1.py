@@ -1,4 +1,4 @@
-from ChemFormula import ChemFormula
+from chemformula import ChemFormula
 
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
 ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5")

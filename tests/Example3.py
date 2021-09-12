@@ -1,4 +1,4 @@
-from ChemFormula import ChemFormula
+from chemformula import ChemFormula
 
 coffein = ChemFormula("C8H10N4O2", Charge = 0, Name = "coffein", CAS = 58_08_2)  # or use CAS = "58-08-2"
 

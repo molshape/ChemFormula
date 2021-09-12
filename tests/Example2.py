@@ -1,4 +1,4 @@
-from ChemFormula import ChemFormula
+from chemformula import ChemFormula
 
 muscarine = ChemFormula("((CH3)3N)(C6H11O2)", 1, "L-(+)-Muscarine")
 pyrophosphate = ChemFormula("P2O7", -4)
