@@ -15,7 +15,7 @@ class ChemFormulaString:
     def __str__(self):
         return self.formula
 
-    ### Returns formula
+    ### Returns original input formula
     @property
     def formula(self):
         return self.__formula
@@ -33,43 +33,49 @@ class ChemFormulaString:
     @charge.setter
     def charge(self, charge):
         if isinstance(charge, int): self.__charge = charge
-        else: raise TypeError(f"Invalid Charge Value '{charge}' (expected an integer (<class 'int'>), but found {type(charge)})")
+        else:
+            raise TypeError(
+                f"Invalid Charge Value '{charge}' (expected an integer (<class 'int'>), but found {type(charge)})"
+            )
 
     ### Boolean property whether the formula object is charged (True) or not (False)
     @property
     def charged(self):
         return False if self.charge == 0 else True
 
-    ### Returns a text string of the charge
+    ### Returns the charge of the formula object as a text string
     @property
     def text_charge(self):
         # a charge of "1+" or "1-" is printed without the number "1"
         charge_output = ""
-        if self.charge == 0: return charge_output
-        if not(abs(self.charge) == 1): charge_output = str(abs(self.charge))
+        if self.charge == 0:
+            return charge_output
+        if not(abs(self.charge) == 1):
+            charge_output = str(abs(self.charge))
         charge_output += "+" if self.charge > 0 else "-"
         return charge_output
 
-    ### returns formula
+    ### Returns formula and charge as a text string
     @property
     def text_formula(self):
         return self.__text_formula
-    
+
     @text_formula.setter
     def text_formula(self, text_formula_charge):
-        self.__text_formula = str(text_formula_charge)
+        self.__text_formula = text_formula_charge
 
-    ### Formats formula in customized strings
-    def format_formula(self,
-                       formula_prefix = "",
-                       element_prefix = "", element_suffix = "",
-                       freq_prefix = "", freq_suffix = "",
-                       formula_suffix = "",
-                       bracket_prefix = "", bracket_suffix = "",
-                       multiply_symbol = "",
-                       charge_prefix = "", charge_suffix = "",
-                       charge_positive = "+", charge_negative = "-"
-                      ):
+    ### Formats formula (ChemFormulaString object) as a customized strings
+    def format_formula(
+            self,
+            formula_prefix = "",
+            element_prefix = "", element_suffix = "",
+            freq_prefix = "", freq_suffix = "",
+            formula_suffix = "",
+            bracket_prefix = "", bracket_suffix = "",
+            multiply_symbol = "",
+            charge_prefix = "", charge_suffix = "",
+            charge_positive = "+", charge_negative = "-"
+            ):
         formatted_formula = re.sub("([\{\[\(\)\]\}]){1}", bracket_prefix + "\g<1>" + bracket_suffix, self.formula)
         formatted_formula = re.sub("([A-Z]{1}[a-z]{0,1})", element_prefix + "\g<1>" + element_suffix, formatted_formula)
         formatted_formula = re.sub(r"(\d+)", freq_prefix + "\g<1>" + freq_suffix, formatted_formula)
@@ -83,31 +89,33 @@ class ChemFormulaString:
         else:
             return formula_prefix + formatted_formula + formula_suffix
 
-    ### returns a LaTeX representation of the formula object 
+    ### Returns a LaTeX representation of a formula (ChemFormulaString object)
     @property
     def latex(self):
-        return self.format_formula("",
-                                   r"\\textnormal{", "}",
-                                   "_{", "}",
-                                   "",
-                                   r"\\",
-                                   multiply_symbol = r"\\cdot",
-                                   charge_prefix = "^{", charge_suffix = "}"
-                                  )
+        return self.format_formula(
+            "",
+            r"\\textnormal{", "}",
+            "_{", "}",
+            "",
+            r"\\",
+            multiply_symbol = r"\\cdot",
+            charge_prefix = "^{", charge_suffix = "}"
+            )
 
-    ### returns an HTML representation of the formula object 
+    ### Returns an HTML representation of a formula (ChemFormulaString object)
     @property
     def html(self):
-        return self.format_formula("<span class='ChemFormula'>",
-                                   "", "",
-                                   "<sub>", "</sub>",
-                                   "</span>",
-                                   multiply_symbol="&sdot;",
-                                   charge_prefix = "<sup>", charge_suffix = "</sup>",
-                                   charge_negative = "&ndash;"
-                                  )
+        return self.format_formula(
+            "<span class='ChemFormula'>",
+            "", "",
+            "<sub>", "</sub>",
+            "</span>",
+            multiply_symbol="&sdot;",
+            charge_prefix = "<sup>", charge_suffix = "</sup>",
+            charge_negative = "&ndash;"
+            )
 
-    ### returns formula with unicode sub- and superscripts (₀₁₂₃₄₅₆₇₈₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻)
+    ### Returns formula with unicode sub- and superscripts (₀₁₂₃₄₅₆₇₈₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻)
     @property
     def unicode(self):
         subscript_num = u"₀₁₂₃₄₅₆₇₈₉"
@@ -126,8 +134,9 @@ class ChemFormulaString:
 ### Class for chemical formula objects 
 class ChemFormula(ChemFormulaString):
     def __init__(self, formula, charge = 0, name = None, cas = None):
+        # Parent information
         ChemFormulaString.__init__(self, formula, charge)
-        # Input information
+        # Additional input information
         self.name = None if name is None else name
         self.cas = None if cas is None else cas
         # parse chemical formula and test for consistency
@@ -139,7 +148,11 @@ class ChemFormula(ChemFormulaString):
     def __eq__(self, other):
         # two chemical formula objects are considered to be equal if they have the same chemical composition (in Hill notation),
         # the same charge, and the same CAS registry number (if provided)
-        return (str(self.hill_formula) == str(other.hill_formula) and self.charge == other.charge and self.cas == other.cas)
+        return (
+                str(self.hill_formula) == str(other.hill_formula)
+                and self.charge == other.charge
+                and self.cas == other.cas
+               )
 
     ### Compares two formulas with respect to their lexical sorting according to Hill's notation
     def __lt__(self, other):
@@ -154,7 +167,7 @@ class ChemFormula(ChemFormulaString):
             if elements_self[i][0] == elements_other[i][0] and elements_self[i][1] < elements_other[i][1]: return True
             if elements_self[i][0] == elements_other[i][0] and elements_self[i][1] > elements_other[i][1]: return False
             # if everything to this point is identical then:
-            # the shorter formula (with less elements) is always lesser than the longer formula (with more elements)
+            # the shorter formula (with less elements) is always lesser/smaller than the longer formula (with more elements)
             if len(elements_self)-1 == i and len(elements_other)-1 > i: return True
         # if everything has failed so far then Self > Other
         return False
@@ -180,18 +193,22 @@ class ChemFormula(ChemFormulaString):
             if character == "(": bracket_counter += 1
             if character == ")": bracket_counter -= 1
             if bracket_counter < 0:  # there are more closing brackets than opening brackets during parsing formula
-                raise ValueError("Invalid Bracket Structure in Formula (expecting an opening bracket, but found a closing bracket)")
-                return False
+                raise ValueError(
+                    "Invalid Bracket Structure in Formula (expecting an opening bracket, but found a closing bracket)"
+                )
         if not bracket_counter == 0:  # number of opening brackets is not identical to the number of closing brackets
-            raise ValueError("Invalid Bracket Structure in Formula (inconsistent number of opening and closing brackets)")
-            return False
+            raise ValueError(
+                "Invalid Bracket Structure in Formula (inconsistent number of opening and closing brackets)"
+            )
         if re.search("[a-z]{2,}", formula):  # at least two lowercase letters found in sequence
-            raise ValueError("Invalid Element Symbol (two lowercase letters found in sequence)")
-            return False
+            raise ValueError(
+                "Invalid Element Symbol (two lowercase letters found in sequence)"
+            )
         for element in re.findall("[A-Z]{1}[a-z]{0,1}", formula):
             if elements.atomic_weight(element) == False:
-                raise ValueError(f"Invalid Element Symbol (unknown element symbol '{element}')")
-                return False
+                raise ValueError(
+                    f"Invalid Element Symbol (unknown element symbol '{element}')"
+                )
         # no error found     
         return True
 
@@ -206,9 +223,9 @@ class ChemFormula(ChemFormulaString):
             post_match = formula[most_inner_bracket_unit.span()[1]::]  # string after the bracketed unit
             inner_match = most_inner_bracket_unit.group(1)             # string of the bracketed unit
             multiplier_match = int(most_inner_bracket_unit.group(2))   # multiplier of the bracketed unit
-            # find all element symbols + (optional) element frequency occurrences
+            # find all element symbols + (optional) element frequency occurrences of inner_match
             element_freq_list = re.findall("[A-Z]{1}[a-z]{0,1}\d*", inner_match)
-            # separate the element symbol portion from the number portion (if any) for all occurrence
+            # separate the element symbol portion from the number portion (if any) for all occurrences
             resolved_match = ""
             for element_freq_item in element_freq_list:
                 element_freq = re.match("(\D+)(\d*)", element_freq_item)
@@ -279,7 +296,8 @@ class ChemFormula(ChemFormulaString):
     @property
     def formula_weight(self):
         float_formula_weight = 0.0
-        for element, freq in self.element.items(): float_formula_weight += freq * elements.atomic_weight(element)
+        for element, freq in self.element.items():
+            float_formula_weight += freq * elements.atomic_weight(element)
         return float(float_formula_weight)
 
     ### Calculate mass fractions for each element in the formula as a dictionary, atomic weights are taken from elements.py
