@@ -1,7 +1,7 @@
 import re
 import Elements
 from collections import defaultdict
-from CASRegistryNumber import CAS
+from casregnum import CAS
 
 ### Class for chemical formula objects 
 class ChemFormula:
@@ -13,7 +13,7 @@ class ChemFormula:
         # Charge information
         self.Charge = Charge
         # CAS information
-        if CAS: self.CAS = self.CASint = CAS
+        self.CAS = None if CAS is None else CAS
         # parse chemical formula and test for consistency
         self.__CleanFormula = self.__CleanUpFormula()
         self.__CheckFormula(self.__CleanFormula)
@@ -28,7 +28,7 @@ class ChemFormula:
     def __eq__(self, other):
         # two chemical formula objects are considered to be equal if they have the same chemical composition (in Hill notation),
         # the same charge, and the same CAS registry number (if provided)
-        return (str(self.HillFormula) == str(other.HillFormula) and self.Charge == other.Charge and self.CASint == other.CASint)
+        return (str(self.HillFormula) == str(other.HillFormula) and self.Charge == other.Charge and self.CAS == other.CAS)
 
     ### Compares two formulas with respect to their lexical sorting according to Hill's notation
     ### new in v1.2.5
@@ -137,7 +137,8 @@ class ChemFormula:
         for sElement, sFreq in self.Element.items():
             sFormula += sElement  # element symbol
             if sFreq > 1: sFormula += str(sFreq)  # add multipliers when they are greater than 1
-        return ChemFormula(str(sFormula), self.Charge, self.Name, self.CASint)  # has been changed with v1.2.4
+        cas_rn = None if self.CAS is None else self.CAS.cas_integer
+        return ChemFormula(str(sFormula), self.Charge, self.Name, cas_rn)  # has been changed with v1.2.4
 
     ### Generate sum formula as a string (include multiplier 1 if bVerbose == True)
     ### Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
@@ -160,7 +161,8 @@ class ChemFormula:
         for sElement, sFreq in dictHill.items():
             sFormula += sElement  # element symbol
             if sFreq > 1: sFormula += str(sFreq)  # add multipliers when they are greater than 1 
-        return ChemFormula(str(sFormula), self.Charge, self.Name, self.CASint)  # has been changed with v1.2.4
+        cas_rn = None if self.CAS is None else self.CAS.cas_integer
+        return ChemFormula(str(sFormula), self.Charge, self.Name, cas_rn)  # has been changed with v1.2.4
 
     ### Returns the formula weight of the formula object
     @property
@@ -233,22 +235,12 @@ class ChemFormula:
     ### Returns the CAS registry number of the formula object
     @property
     def CAS(self):
-        return str(self.__CAS)
+        return None if self.__CAS is None else self.__CAS
 
     ### Checks, whether the CAS registry number is valid by using the CAS class from CASRegistryNumber.py
     @CAS.setter
-    def CAS(self, CAS_RN):
-        self.__CAS = CAS(CAS_RN)
-
-    ### Returns the CAS registry number as an integer
-    @property
-    def CASint(self):
-        return self.__CASint if hasattr(self, "CAS") else None
-
-    ### Sets the CAS registry number as an integer
-    @CASint.setter
-    def CASint(self, CAS_RN):
-        self.__CASint = CAS(CAS_RN).CASint if hasattr(self, "CAS") else None
+    def CAS(self, cas_rn):
+        self.__CAS = None if cas_rn is None else CAS(cas_rn)
 
     ### Formats formula in customized strings
     def FormatFormula(self, strFormulaPrefix = "", strElementPrefix = "", strElementSuffix = "", strFreqPrefix = "", strFreqSuffix = "", strFormulaSuffix = "", strBracketPrefix = "", strBracketSuffix = "", strMultiplySymbol = "", strChargePrefix = "", strChargeSuffix = "", strChargePositive = "+", strChargeNegative = "-"):

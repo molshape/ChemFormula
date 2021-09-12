@@ -42,7 +42,7 @@ print("\n--- Accessing Single Elements through FormulaObject.Element[\"Element_S
 print(f" Tetraamminecopper(II)-sulfate contains {tetraamminecoppersulfate.Element['N']} nitrogen atoms.")
 
 print("\n--- CAS Registry Number ---")
-print(f" {caffeine.Name.capitalize()} has the CAS RN {caffeine.CAS} (or as an integer: {caffeine.CASint}).\n")
+print(f" {caffeine.Name.capitalize()} has the CAS RN {caffeine.CAS} (or as an integer: {caffeine.CAS.cas_integer}).\n")
 
 ### OUTPUT:
 #
