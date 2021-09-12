@@ -56,64 +56,66 @@ muscarine = ChemFormula("((CH3)3N)(C6H11O2)", charge = 1, name = "L-(+)-Muscarin
 pyrophosphate = ChemFormula("P2O7", -4)
 
 caffeine = ChemFormula("C8H10N4O2", name = "caffeine", cas = 58_08_2)
-theine = ChemFormula("C8H10N4O2", name = "theine", cas = "58-08-2")
+theine = ChemFormula("(C5N4H)O2(CH3)3", name = "theine", cas = "58-08-2")
 ```
 
 The `ChemFormula` class offers the following attributes/functions
 
 ```Python
-.original_formula # original chemical formula used to create the chemical formula object
+.formula         # original chemical formula used to create the chemical formula object
 
-.latex            # formats the formula of a ChemFormula object as a string that can be used in LaTeX
+.text_formula    # formula including charge as text output
 
-.html             # formats the formula of a ChemFormula object as a string that can be used in HTML
+.latex           # formats a formula as a string that can be used in LaTeX
 
-.unicode          # formats the formula of a ChemFormula object with unicode subscript and superscript numbers
+.html            # formats a formula as a string that can be used in HTML
 
-.format_formula(  # custom formatting of the formula, .FormatFormula uses the following optional keyword arguments
-                formula_prefix = "",                       # preceeds the complete formula string
-                element_prefix = "", element_suffix = "",  # encloses every chemical symbol (Prefix + Symbol + Suffix)
-                freq_prefix = "", freq_suffix = "",        # encloses every element frequency (Prefix + Frequency + Suffix)
-                formula_suffix = "",                       # closes the complete formula string
-                bracket_prefix = "", bracket_suffix = "",  # encloses all brackets: {[()]} (Prefix + Bracket + Suffix)
-                multiply_symbol = "",                      # replacement for '.' or '*'
-                charge_prefix = "", charge_suffix = "",    # encloses every charge information (Prefix + Charge + Suffix)
-                charge_positive = "+",                     # symbol for a positive charge
-                charge_negative = "-"                      # symbol for a negative charge
+.unicode         # formats a formula with unicode subscript and superscript numbers
+
+.format_formula( # custom formatting of the formula, .FormatFormula uses the following optional keyword arguments
+                formula_prefix = "",                      # preceeds the complete formula string
+                element_prefix = "", element_suffix = "", # encloses every chemical symbol (Prefix + Symbol + Suffix)
+                freq_prefix = "", freq_suffix = "",       # encloses every element frequency (Prefix + Frequency + Suffix)
+                formula_suffix = "",                      # closes the complete formula string
+                bracket_prefix = "", bracket_suffix = "", # encloses all brackets: {[()]} (Prefix + Bracket + Suffix)
+                multiply_symbol = "",                     # replacement for '.' or '*'
+                charge_prefix = "", charge_suffix = "",   # encloses every charge information (Prefix + Charge + Suffix)
+                charge_positive = "+",                    # symbol for a positive charge
+                charge_negative = "-"                     # symbol for a negative charge
 	       )
 
-.sum_formula      # collapsed sum formula of .OriginalFormula with all bracketed units resolved as a ChemFormula object,
-                  # i.e. use .SumFormula.HTML to retrive an HTML representation of the sum formula
+.sum_formula     # collapsed sum formula of .OriginalFormula with all bracketed units resolved as a ChemFormula object,
+                 # i.e. use .SumFormula.HTML to retrive an HTML representation of the sum formula
 
-.hill_formula     # sum formula in Hill notation as a ChemFormula object, i.e. use .HillFormula.Unicode to retrive
-                  # a Unicode representation of the Hill formula (first Carbon, then Hydrogen (if carbon is present),
-                  # followed by all other elements in alphabetical order of their chemical symbol)
-                  # Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
+.hill_formula    # sum formula in Hill notation as a ChemFormula object, i.e. use .HillFormula.Unicode to retrive
+                 # a Unicode representation of the Hill formula (first Carbon, then Hydrogen (if carbon is present),
+                 # followed by all other elements in alphabetical order of their chemical symbol)
+                 # Source: Edwin A. Hill, J. Am. Chem. Soc., 1900 (22), 8, 478-494 (https://doi.org/10.1021/ja02046a005)
 
-.formula_weight   # formula weight of the chemical formula in g/mol
+.formula_weight  # formula weight of the chemical formula in g/mol
 
-.mass_fractions   # mass fraction of each element for the chemical formula in the form of
-                  # key, value = chemical symbol, mass fraction
+.mass_fractions  # mass fraction of each element for the chemical formula in the form of
+                 # key, value = chemical symbol, mass fraction
 
-.name             # name of the chemical formula object
+.name            # name of the chemical formula object
 
-.radioactive      # boolean value whether the formula is radioactive (True) or not (False)
+.radioactive     # boolean value whether the formula is radioactive (True) or not (False)
 
-.charged          # boolean value whether the formula is charged (True) or not (False)
+.charged         # boolean value whether the formula is charged (True) or not (False)
 
-.charge           # integer value carrying the charge of the chemical formula object
+.charge          # integer value carrying the charge of the chemical formula object
 
-.text_dharge      # formatted string of the charge of the chemical formula object (e. g. 3+, 4-, +, ...)
+.text_dharge     # formatted string of the charge of the chemical formula object (e. g. 3+, 4-, +, ...)
 
-.element          # is a dictionary representation of the formula composition in the form of
-                  # key, value = chemical symbol, frequency of this element
-                  # e.g.: .element["C"] gives the number of carbon atoms in the corresponding formula object
+.element         # is a dictionary representation of the formula composition in the form of
+                 # key, value = chemical symbol, frequency of this element
+                 # e.g.: .element["C"] gives the number of carbon atoms in the corresponding formula object
 
-.cas              # CAS Registry Number® in a formatted way ('_____00-00-0')
-                  # .cas is a CAS number object from the casregnum package
-.cas.cas_string   # CAS number as a formatted string, inherited property from casregnum.CAS
-.cas.cas_integer  # CAS number as an integer value, inherited property from casregnum.CAS
-.cas.check_digit  # CAS number check digit, inherited property from casregnum.CAS
+.cas             # CAS Registry Number® in a formatted way ('_____00-00-0')
+                 # .cas is a CAS number object from the casregnum package
+.cas.cas_string  # CAS number as a formatted string, inherited property from casregnum.CAS
+.cas.cas_integer # CAS number as an integer value, inherited property from casregnum.CAS
+.cas.check_digit # CAS number check digit, inherited property from casregnum.CAS
 ```
 
 
@@ -133,7 +135,8 @@ caffeine = ChemFormula("C8H10N4O2", name = "caffeine", cas = 58_08_2)
 
 print(f"\n--- Formula Depictions of {muscarine.name} ---")
 print(f" Print instance: {muscarine}")
-print(f" Original:       {muscarine.original_formula}")
+print(f" Original:       {muscarine.formula}")
+print(f" Text formula:   {muscarine.text_formula}")
 print(f" HTML:           {muscarine.html}")
 print(f" LaTeX:          {muscarine.latex}")
 print(f" Unicode:        {muscarine.unicode}")
@@ -147,10 +150,10 @@ print(f" Hill formula:   {muscarine.hill_formula.latex}")
 
 print(f"\n--- Formula Weights Calculations with {ethylcinnamate.name.title()} ---")
 print(f" The formula weight of {ethylcinnamate.name} ({ethylcinnamate.sum_formula.unicode}) is {ethylcinnamate.formula_weight:.2f} g/mol.")
-Mole = 1.4
-print(f" {Mole:.1f} mol of {ethylcinnamate.name} weight {Mole * ethylcinnamate.formula_weight:.1f} g.")
-Mass = 24
-print(f" {Mass:.1f} g of {ethylcinnamate.name} corresponds to {Mass/ethylcinnamate.formula_weight * 1000:.1f} mmol.")
+mole = 1.4
+print(f" {mole:.1f} mol of {ethylcinnamate.name} weight {mole * ethylcinnamate.formula_weight:.1f} g.")
+mass = 24
+print(f" {mass:.1f} g of {ethylcinnamate.name} corresponds to {mass/ethylcinnamate.formula_weight * 1000:.1f} mmol.")
 print(f" The elemental composition of {ethylcinnamate.name} is as follows:")
 for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fraction.items():
 	print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
@@ -174,6 +177,7 @@ generates the following output
 --- Formula Depictions of L-(+)-Muscarine ---
  Print instance: ((CH3)3N)(C6H11O2)
  Original:       ((CH3)3N)(C6H11O2)
+ Text formula:   ((CH3)3N)(C6H11O2) +
  HTML:           <span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>
  LaTeX:          \(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}
  Unicode:        ((CH₃)₃N)(C₆H₁₁O₂)⁺
@@ -206,6 +210,9 @@ generates the following output
 --- CAS Registry Number ---
  Caffeine has the CAS RN 58-08-2 (or as an integer: 58082).
  ```
+
+More examples can be found at [/tests/](https://github.com/molshape/ChemFormula/blob/main/tests/).
+
 
 ## Comparing and Sorting of Chemical Formulas
 
@@ -252,7 +259,8 @@ generates the following output
   6. C₆H₁₂O₆
   7. C₆H₁₂S₆
  ```
- 
+
+
 ## Atomic Weight Data
 
 All atomic weights are taken from the IUPAC Commission on Isotopic Abundances and Atomic Weights and are based on the following reports and publications:
