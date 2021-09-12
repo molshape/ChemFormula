@@ -30,7 +30,7 @@ In order to uninstall **ChemFormula** from your local environment use
 
 
 ## Dependencies
-**ChemFormula** uses the [casregnum package](https://pypi.org/project/casregnum/) to work with CAS Registry Numbers®. The corresponding properties of the `CAS` class are therefore inherited to the ```ChemFormula``` class.
+**ChemFormula** uses the [casregnum package](https://pypi.org/project/casregnum/) to manage CAS Registry Numbers®. The corresponding properties of the `CAS` class are therefore inherited to the ```ChemFormula``` class.
 
 
 ## How to use?
@@ -41,8 +41,8 @@ from chemformula import ChemFormula
 
 chemical_formula = ChemFormula(formula,
                                charge = 0,
-			       name = None,
-			       cas = None)
+                               name = None,
+                               cas = None)
 ```
 
 *Examples:*
