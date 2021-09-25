@@ -211,7 +211,7 @@ generates the following output
  Caffeine has the CAS RN 58-08-2 (or as an integer: 58082).
  ```
 
-More examples can be found at [/tests/](https://github.com/molshape/ChemFormula/blob/main/tests/).
+More examples can be found at [/examples/](https://github.com/molshape/ChemFormula/blob/main/examples/).
 
 
 ## Comparing and Sorting of Chemical Formulas
