@@ -6,45 +6,113 @@ from chemformula import ChemFormula
 
 @pytest.fixture
 def muscarine():
-    return ChemFormula("((CH3)3N)(C6H11O2)", charge = 1, name = "L-(+)-Muscarine", cas = 300_54_9)
-
-@pytest.fixture
-def uranophane():
-    return ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5")
-
-@pytest.fixture
-def ethylcinnamate():
-    return ChemFormula("(C6H5)CHCHCOOC2H5")
+    return ChemFormula("((CH3)3N)(C6H11O2)", charge = 1, name = u"ʟ-(+)-Muscarine", cas = 300_54_9)
 
 
 ### Tests for functionality
 
-def test_name(muscarine):
-    assert muscarine.name == "L-(+)-Muscarine"
+@pytest.mark.parametrize(
+    "testinput, expected", [
+        (ChemFormula("H2O", 0, "Water"),
+        "Water"),
+        (ChemFormula("((CH3)3N)(C6H11O2)", charge = 1, name = u"ʟ-(+)-Muscarine"),
+        u"ʟ-(+)-Muscarine"),
+        ],
+)
+def test_name(testinput, expected):
+    assert testinput.name == expected
 
-def test_charge(muscarine):
-    assert muscarine.charge == 1
+@pytest.mark.parametrize(
+    "testinput, expected", [
+        (ChemFormula("H2O", 0),
+        0),
+        (ChemFormula("SO4", charge = -2),
+        -2),
+        (ChemFormula("Al", charge = 3),
+        3)
+        ],
+)
+def test_charge(testinput, expected):
+    assert testinput.charge == expected
 
-def test_charged_true(muscarine):
-    assert muscarine.charged is True
+@pytest.mark.parametrize(
+    "testinput, expected", [
+        (ChemFormula("H2O"),
+        False),
+        (ChemFormula("H3O", charge = 1),
+        True),
+        (ChemFormula("OH", charge = -1),
+        True)
+        ],
+)
+def test_charged(testinput, expected):
+    assert testinput.charged is expected
 
-def test_charged_false(uranophane):
-    assert uranophane.charged is False
+@pytest.mark.parametrize(
+    "testinput, expected", [
+        (ChemFormula("UO2"),
+        True),
+        (ChemFormula("SO2"),
+        False)
+        ],
+)
+def test_radioactive(testinput, expected):
+    assert testinput.radioactive is expected
 
-def test_radioactive_true(uranophane):
-    assert uranophane.radioactive is True
+@pytest.mark.parametrize(
+    "testinput, expected", [
+        (ChemFormula("((CH3)3N)(C6H11O2)", 1, "L-(+)-Muscarine", 300_54_9),
+        "300-54-9"),
+        (ChemFormula("C8H10N4O2", 0, "coffein", "58-08-2"),
+        "58-08-2"),
+        (ChemFormula("(C5N4H)O2(CH3)3", name = "theine", cas = 58082),
+        "58-08-2")
+        ],
+)
+def test_cas(testinput, expected):
+    assert str(testinput.cas) == expected
 
-def test_radioactive_false(muscarine):
-    assert muscarine.radioactive is False
+@pytest.mark.parametrize(
+    "testinput, expected", [
+        (ChemFormula("((CH3)3N)(C6H11O2)"),
+        174.26),
+        (ChemFormula("C8H10N4O2"),
+        194.19),
+        (ChemFormula("H3O", 1),
+        19.02)
+        ],
+)
+def test_formula_weight(testinput, expected):
+    assert round(testinput.formula_weight, 2) == expected
 
-def test_cas(muscarine):
-    assert str(muscarine.cas) == "300-54-9"
+@pytest.mark.parametrize(
+    "testinput, testelement, expected", [
+        (ChemFormula("((CH3)3N)(C6H11O2)"), "C",
+        62.03),
+        (ChemFormula("C8H10N4O2"), "N",
+        28.85),
+        (ChemFormula("SO4", -2), "S",
+        33.38)
+        ],
+)
+def test_weight_fraction(testinput, testelement, expected):
+    assert round(testinput.mass_fraction[testelement]*100, 2) == expected
 
-def test_formula_weight(ethylcinnamate):
-    assert round(ethylcinnamate.formula_weight, 3) == 176.215
+@pytest.mark.parametrize(
+    "testinput, testelement, expected", [
+        (ChemFormula("((CH3)3N)(C6H11O2)"), "H",
+        20),
+        (ChemFormula("C8H10N4O2"), "N",
+        4),
+        (ChemFormula("SO4", -2), "O",
+        4)
+        ],
+)
+def test_element_dictionary(testinput, testelement, expected):
+    assert testinput.element[testelement] == expected
 
-def test_weight_fraction(uranophane):
-    assert round(uranophane.mass_fraction["Si"]*1000, 3) == 65.59
+
+### Tests for output functionality
 
 def test_html(muscarine):
     assert muscarine.html == "<span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>"
@@ -57,9 +125,6 @@ def test_sum_formula_unicode(muscarine):
 
 def test_hill_formula_text_formula(muscarine):
     assert muscarine.hill_formula.text_formula == "C9H20NO2 +"
-
-def test_element_dictionary(muscarine):
-    assert muscarine.element["O"] == 2
 
 
 ### Tests for error handling
