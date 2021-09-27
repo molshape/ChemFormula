@@ -9,7 +9,10 @@ class ChemFormulaString:
     def __init__(self, formula, charge=0):
         self.formula = formula  # chemical formula
         self.charge = charge    # charge of chemical formula
-        self.text_formula = self.formula + " " + self.text_charge
+        if self.charged:
+            self.text_formula = self.formula + " " + self.text_charge
+        else:
+            self.text_formula = self.formula
 
     # formula as standard string output
     def __str__(self):

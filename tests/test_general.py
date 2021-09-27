@@ -12,6 +12,11 @@ def muscarine():
     )
 
 
+@pytest.fixture
+def tetraamminecoppersulfate():
+    return ChemFormula("[Cu(NH3)4]SO4.H2O")
+
+
 # Tests for functionality
 
 
@@ -19,7 +24,10 @@ def muscarine():
     "testinput, expected",
     [
         (ChemFormula("H2O", 0, "Water"), "Water"),
-        (ChemFormula("((CH3)3N)(C6H11O2)", charge=1, name="ʟ-(+)-Muscarine"), "ʟ-(+)-Muscarine"),
+        (
+            ChemFormula("((CH3)3N)(C6H11O2)", charge=1, name="ʟ-(+)-Muscarine"),
+            "ʟ-(+)-Muscarine",
+        ),
     ],
 )
 def test_name(testinput, expected):
@@ -109,6 +117,19 @@ def test_element_dictionary(testinput, testelement, expected):
     assert testinput.element[testelement] == expected
 
 
+@pytest.mark.parametrize(
+    "testinput, expected",
+    [
+        (ChemFormula("((CH3)3N)(C6H11O2)"), "C9H20NO2"),
+        (ChemFormula("AsH3"), "AsH3"),
+        (ChemFormula("H3O", charge=1), "H3O"),
+        (ChemFormula("CaCO3"), "CCaO3"),
+    ],
+)
+def test_hill_formula(testinput, expected):
+    assert str(testinput.hill_formula) == expected
+
+
 # Tests for output functionality
 
 
@@ -126,12 +147,39 @@ def test_latex(muscarine):
     )
 
 
-def test_sum_formula_unicode(muscarine):
-    assert muscarine.sum_formula.unicode == "C₉H₂₀NO₂⁺"
+def test_custom_format(tetraamminecoppersulfate):
+    assert (
+        tetraamminecoppersulfate.format_formula(
+            "--> ", "", "", "_<", ">", " <--", "", "", " * "
+        )
+        == "--> [Cu(NH_<3>)_<4>]SO_<4> * H_<2>O <--"
+    )
 
 
-def test_hill_formula_text_formula(muscarine):
-    assert muscarine.hill_formula.text_formula == "C9H20NO2 +"
+@pytest.mark.parametrize(
+    "testinput, expected",
+    [
+        (ChemFormula("((CH3)3N)(C6H11O2)", charge=1), "C₉H₂₀NO₂⁺"),
+        (ChemFormula("CaCO3"), "CaCO₃"),
+        (ChemFormula("HCl", charge=0), "HCl"),
+        (ChemFormula("SO4", charge=-2), "SO₄²⁻"),
+    ],
+)
+def test_sum_formula_unicode(testinput, expected):
+    assert testinput.sum_formula.unicode == expected
+
+
+@pytest.mark.parametrize(
+    "testinput, expected",
+    [
+        (ChemFormula("((CH3)3N)(C6H11O2)", charge=1), "C9H20NO2 +"),
+        (ChemFormula("CaCO3"), "CCaO3"),
+        (ChemFormula("HCl", charge=0), "ClH"),
+        (ChemFormula("SO4", charge=-2), "O4S 2-"),
+    ],
+)
+def test_hill_formula_text_formula(testinput, expected):
+    assert testinput.hill_formula.text_formula == expected
 
 
 # Tests for error handling
