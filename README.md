@@ -1,6 +1,7 @@
 # ChemFormula
 
 ![PyPI](https://img.shields.io/pypi/v/ChemFormula)
+![pytest](https://github.com/molshape/ChemFormula/actions/workflows/python-app.yml/badge.svg)
 
 <details>
 <summary>Table of Content</summary>
