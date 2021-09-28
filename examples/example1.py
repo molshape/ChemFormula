@@ -2,7 +2,7 @@ from chemformula import ChemFormula
 
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
 ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5")
-uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2(H2O)5", name = "Uranophane")
+uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2(H2O)5", name="Uranophane")
 
 print("\n--- Formula Depictions of Tetraamminecopper(II)-sulfate ---")
 print(f" Formula:       {tetraamminecoppersulfate.formula}")
@@ -23,23 +23,23 @@ Mass = 24
 print(f" {Mass:.1f} g of ethyl cinnamate corresponds to {Mass/ethylcinnamate.formula_weight * 1000:.1f} mmol.")
 print(" The elemental composition of ethyl cinnamate is as follows:")
 for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fraction.items():
-	print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
+    print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
 print("\n--- Is Uranophane Radioactive and Charged? ---")
-print(f" Yes, {uranophane.name} is radioactive.") if uranophane.radioactive else print(f" No, {uranophane.name} is not radioactive.")
+print(f" Yes, {uranophane.name} is radioactive.") if uranophane.radioactive else print(f" No, {uranophane.name} is not radioactive.")  # noqa: E501
 print(f" Yes, {uranophane.name} is charged.") if uranophane.charged else print(f" No, {uranophane.name} is not charged.")
 
-print("\n--- Accessing Single Elements through FormulaObject.Element[\'Element_Symbol\'] ---")
+print("\n--- Accessing Single Elements through FormulaObject.Element['Element_Symbol'] ---")
 print(f" Cupric sulfate contains {tetraamminecoppersulfate.element['N']} nitrogen atoms.\n")
 
-### OUTPUT:
+# OUTPUT:
 #
 # --- Formula Depictions of Tetraamminecopper(II)-sulfate ---
 #  Formula:       [Cu(NH3)4]SO4.H2O
 #  Original:      [Cu(NH3)4]SO4.H2O
 #  Charged:       False
 #  Charge (int):  0
-#  LaTeX:         \[\textnormal{Cu}\(\textnormal{N}\textnormal{H}_{3}\)_{4}\]\textnormal{S}\textnormal{O}_{4}\cdot\textnormal{H}_{2}\textnormal{O}
+#  LaTeX:         \[\textnormal{Cu}\(\textnormal{N}\textnormal{H}_{3}\)_{4}\]\textnormal{S}\textnormal{O}_{4}\cdot\textnormal{H}_{2}\textnormal{O}  # noqa: E501
 #  HTML:          <span class='ChemFormula'>[Cu(NH<sub>3</sub>)<sub>4</sub>]SO<sub>4</sub>&sdot;H<sub>2</sub>O</span>
 #  Custom format: --> [Cu(NH_<3>)_<4>]SO_<4> * H_<2>O <--
 #  Sum formula:   CuN4H14SO5

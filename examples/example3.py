@@ -1,6 +1,6 @@
 from chemformula import ChemFormula
 
-coffein = ChemFormula("C8H10N4O2", charge = 0, name = "coffein", cas = 58_08_2)  # or use CAS = "58-08-2"
+coffein = ChemFormula("C8H10N4O2", charge=0, name="coffein", cas=58_08_2)  # or use CAS = "58-08-2"
 
 print("\n--- Formula Depictions of coffein ---")
 print(f" Name:           {coffein.name} ({coffein.sum_formula.unicode})")
@@ -17,7 +17,7 @@ print(f" Sum formula:    {coffein.sum_formula}")
 print(f" Hill formula:   {coffein.hill_formula}")
 print(f" Formula Weight: {coffein.formula_weight:.1f} g/mol\n")
 
-### OUTPUT:
+# OUTPUT:
 #
 # --- Formula Depictions of coffein ---
 #  Name:           coffein (C₈H₁₀N₄O₂)
