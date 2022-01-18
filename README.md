@@ -106,7 +106,7 @@ The `ChemFormula` class offers the following attributes/functions
 
 .charge          # integer value carrying the charge of the chemical formula object
 
-.text_dharge     # formatted string of the charge of the chemical formula object (e. g. 3+, 4-, +, ...)
+.text_charge     # formatted string of the charge of the chemical formula object (e. g. 3+, 4-, +, ...)
 
 .element         # is a dictionary representation of the formula composition in the form of
                  # key, value = chemical symbol, frequency of this element
