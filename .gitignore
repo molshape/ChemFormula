@@ -133,6 +133,5 @@ dmypy.json
 .vscode/
 local/
 MANIFEST.in
-pyproject.toml
 setup.py
 VERSION

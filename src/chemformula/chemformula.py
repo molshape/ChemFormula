@@ -1,8 +1,7 @@
 import re
-import elements
 import casregnum
 from collections import defaultdict
-
+from . import elements
 
 # Class for chemical formula strings
 class ChemFormulaString:
