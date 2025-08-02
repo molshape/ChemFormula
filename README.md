@@ -1,7 +1,11 @@
 # ChemFormula
 
-![PyPI](https://img.shields.io/pypi/v/ChemFormula)
-![pytest](https://github.com/molshape/ChemFormula/actions/workflows/python-app.yml/badge.svg)
+![PyPI Version](https://img.shields.io/pypi/v/ChemFormula)
+![CI](https://github.com/molshape/ChemFormula/actions/workflows/ci.yml/badge.svg)
+![Python Versions](https://img.shields.io/pypi/pyversions/ChemFormula)
+![License](https://img.shields.io/github/license/molshape/ChemFormula) \
+![GitHub stars](https://img.shields.io/github/stars/molshape/ChemFormula)
+
 
 <details>
 <summary>Table of Content</summary>
@@ -276,6 +280,6 @@ All atomic weights are taken from the IUPAC Commission on Isotopic Abundances an
 - [*Pure Appl. Chem.*, **2022**, *94*(5), 573-600](https://doi.org/10.1515/pac-2019-0603)
 - [*Chem. Int.*, **2025**, *47*(1), 20-20](https://doi.org/10.1515/ci-2025-0105)
 
-The current data has been downloaded from https://iupac.qmul.ac.uk/AtWt/ as of August 2<sup>nd</sup>, 2025. The original data has been mirrored to [/misc/AtWt23.html](https://github.com/molshape/ChemFormula/blob/main/misc/AtWt23.html).
+The current data has been downloaded from https://iupac.qmul.ac.uk/AtWt/ as of August 2<sup>nd</sup>, 2025. The original data has been mirrored to [AtWt23.html](https://github.com/molshape/ChemFormula/blob/main/misc/AtWt23.html).
 
 Quoted atomic weights are those suggested for materials where the origin of the sample is unknown. For most radioactive elements the isotope with the longest half-life is quoted as an integer.
