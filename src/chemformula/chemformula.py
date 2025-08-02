@@ -1,7 +1,10 @@
 import re
-import casregnum
 from collections import defaultdict
+
+import casregnum
+
 from . import elements
+
 
 # Class for chemical formula strings
 class ChemFormulaString:
@@ -118,8 +121,8 @@ class ChemFormulaString:
     # Returns formula with unicode sub- and superscripts (₀₁₂₃₄₅₆₇₈₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻)
     @property
     def unicode(self):
-        subscript_num = u"₀₁₂₃₄₅₆₇₈₉"
-        superscript_num = u"⁰¹²³⁴⁵⁶⁷⁸⁹"
+        subscript_num = "₀₁₂₃₄₅₆₇₈₉"
+        superscript_num = "⁰¹²³⁴⁵⁶⁷⁸⁹"
         unicode_formula = self.formula     # start with original formula
         unicode_charge = self.text_charge  # start with original text_charge
         # replace all numbers (0 - 9) by subscript numbers (for elemental frequencies)
@@ -127,8 +130,8 @@ class ChemFormulaString:
         for number in range(0, 10):
             unicode_formula = unicode_formula.replace(str(number), subscript_num[number])
             unicode_charge = unicode_charge.replace(str(number), superscript_num[number])
-        unicode_charge = unicode_charge.replace("+", u"⁺")
-        unicode_charge = unicode_charge.replace("-", u"⁻")
+        unicode_charge = unicode_charge.replace("+", "⁺")
+        unicode_charge = unicode_charge.replace("-", "⁻")
         return unicode_formula + unicode_charge
 
 
