@@ -1,5 +1,5 @@
 '''
-ATOMIC WEIGHTS OF THE ELEMENTS (2019)
+ATOMIC WEIGHTS OF THE ELEMENTS (2023)
 from the IUPAC Commission on Isotopic Abundances and Atomic Weights
 
 Based on the following reports:
@@ -10,8 +10,10 @@ Based on the following reports:
     - Pure Appl. Chem., 2016, 88, 1225-1229 (https://doi.org/10.1515/pac-2016-0501)
     - Chem. Int., 2018, 40(4), 23-24        (https://doi.org/10.1515/ci-2018-0409)
     - Chem. Int., 2020, 42(2), 31           (https://doi.org/10.1515/ci-2020-0222)
+    - Pure Appl. Chem., 2022, 94(5), 573-600 (https://doi.org/10.1515/pac-2019-0603)
+    - Chem. Int., 2025, 47(1), 20-20         (https://doi.org/10.1515/ci-2025-0105)
 
-Data taken from: https://www.qmul.ac.uk/sbcs/iupac/AtWt/
+Data taken from: https://iupac.qmul.ac.uk/AtWt/
 
 Quoted atomic weights are those suggested for materials where the origin of the sample is unknown.
 For radioactive elements the isotope with the longest half-life is quoted as an integer.
@@ -28,7 +30,7 @@ def atomic_weight(element):
         "C":   12.011,
         "N":   14.007,
         "O":   15.999,
-        "F":   18.998403163,
+        "F":   18.998403162,
         "Ne":  20.1797,
         "Na":  22.98976928,
         "Mg":  24.305,
@@ -37,10 +39,10 @@ def atomic_weight(element):
         "P":   30.973761998,
         "S":   32.06,
         "Cl":  35.45,
-        "Ar":  39.948,
+        "Ar":  39.95,
         "K":   39.0983,
         "Ca":  40.078,
-        "Sc":  44.955908,
+        "Sc":  44.955907,
         "Ti":  47.867,
         "V":   50.9415,
         "Cr":  51.9961,
@@ -58,8 +60,8 @@ def atomic_weight(element):
         "Kr":  83.798,
         "Rb":  85.4678,
         "Sr":  87.62,
-        "Y":   88.90584,
-        "Zr":  91.224,
+        "Y":   88.905838,
+        "Zr":  91.222,
         "Nb":  92.90637,
         "Mo":  95.95,
         "Tc":  97,
@@ -83,14 +85,14 @@ def atomic_weight(element):
         "Pm": 145,
         "Sm": 150.36,
         "Eu": 151.964,
-        "Gd": 157.25,
+        "Gd": 157.249,
         "Tb": 158.925354,
         "Dy": 162.500,
-        "Ho": 164.930328,
+        "Ho": 164.930329,
         "Er": 167.259,
-        "Tm": 168.934218,
+        "Tm": 168.934219,
         "Yb": 173.045,
-        "Lu": 174.9668,
+        "Lu": 174.96669,
         "Hf": 178.486,
         "Ta": 180.94788,
         "W":  183.84,
