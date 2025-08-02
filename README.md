@@ -273,7 +273,9 @@ All atomic weights are taken from the IUPAC Commission on Isotopic Abundances an
 - [*Pure Appl. Chem.*, **2016**, *88*, 1225-1229](https://doi.org/10.1515/pac-2016-0501)
 - [*Chem. Int.*, **2018**, *40*(4), 23-24](https://doi.org/10.1515/ci-2018-0409)
 - [*Chem. Int.*, **2020**, *42*(2), 31](https://doi.org/10.1515/ci-2020-0222)
+- [*Pure Appl. Chem.*, **2022**, *94*(5), 573-600](https://doi.org/10.1515/pac-2019-0603)
+- [*Chem. Int.*, **2025**, *47*(1), 20-20](https://doi.org/10.1515/ci-2025-0105)
 
-The actual data has been downloaded from https://www.qmul.ac.uk/sbcs/iupac/AtWt/ as of August 8th, 2021. The original data has been mirrored to [/misc/AtWt19.html](https://github.com/molshape/ChemFormula/blob/main/misc/AtWt19.html).
+The current data has been downloaded from https://iupac.qmul.ac.uk/AtWt/ as of August 2<sup>nd</sup>, 2025. The original data has been mirrored to [/misc/AtWt23.html](https://github.com/molshape/ChemFormula/blob/main/misc/AtWt23.html).
 
 Quoted atomic weights are those suggested for materials where the origin of the sample is unknown. For most radioactive elements the isotope with the longest half-life is quoted as an integer.
