@@ -1,4 +1,5 @@
 import pytest
+
 from chemformula import ChemFormula
 
 # pytest fixtures

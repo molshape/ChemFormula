@@ -8,19 +8,35 @@ jobs:
   pypi:
     name: Publish to PyPI
     runs-on: ubuntu-latest
-    # Environment and permissions trusted publishing.
-    environment:
-      # Create this environment in the GitHub repository under Settings -> Environments
-      name: pypi
+    # Environment and permissions for trusted publishing
+    environment: pypi
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
-      - run: uv build
-      # Check that basic features work and we didn't miss to include crucial files
-      # - name: Smoke test (wheel)
-      #   run: uv run --isolated --no-project -p 3.13 --with dist/*.whl tests/smoke_test.py
-      # - name: Smoke test (source distribution)
-      #   run: uv run --isolated --no-project -p 3.13 --with dist/*.tar.gz tests/smoke_test.py
-      - run: uv publish --trusted-publishing always
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
+        
+      - name: Install dependencies
+        run: uv sync --dev
+        
+      - name: Run tests before release
+        run: uv run pytest -v
+        
+      - name: Build package
+        run: uv build
+        
+      - name: Verify build
+        run: |
+          ls -la dist/
+          uv run twine check dist/*
+        
+      - name: Smoke test (wheel)
+        run: |
+          WHEEL=$(ls dist/*.whl)
+          uv run --isolated --no-project -p 3.12 --with "$WHEEL" python -c "from chemformula import ChemFormula; print('Import successful'); water=ChemFormula('H2O'); print('Water mass:', water.mass(), 'g/mol')"
+
+      - name: Publish to PyPI
+        run: uv publish --trusted-publishing always
