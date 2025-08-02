@@ -36,7 +36,7 @@ jobs:
       - name: Smoke test (wheel)
         run: |
           WHEEL=$(ls dist/*.whl)
-          uv run --isolated --no-project -p 3.12 --with "$WHEEL" python -c "from chemformula import ChemFormula; print('Import successful'); water=ChemFormula('H2O'); print('Water mass:', water.mass(), 'g/mol')"
+          uv run --isolated --no-project -p 3.12 --with "$WHEEL" python -c "from chemformula import ChemFormula; print('Import successful'); water=ChemFormula('H2O'); print('Formula Weight:', water.formula_weight, 'g/mol')"
 
       - name: Publish to PyPI
         run: uv publish --trusted-publishing always
