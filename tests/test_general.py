@@ -1,9 +1,8 @@
 import pytest
 
-from chemformula import ChemFormula
+from chemformula import ChemFormula, elements
 
 # pytest fixtures
-
 
 @pytest.fixture
 def muscarine():
@@ -65,8 +64,25 @@ def test_charged(testinput, expected):
         (ChemFormula("SO2"), False),
     ],
 )
-def test_radioactive(testinput, expected):
-    assert testinput.radioactive is expected
+def test_is_radioactive(testinput, expected):
+    assert testinput.is_radioactive is expected
+    assert testinput.radioactive is expected  # deprecated property
+
+
+def test_get_valid_element_symbols_without_hydrogen_isotopes():
+    allowed_symbols = elements.get_valid_element_symbols()
+    assert "D" not in allowed_symbols and "T" not in allowed_symbols
+
+
+@pytest.mark.parametrize(
+    "testinput, expected",
+    [
+        ("NH4ClO4", False),
+        ("NH4TcO4", True),
+    ],
+)
+def test_contains_isotopes(testinput, expected):
+    assert ChemFormula(testinput).contains_isotopes is expected
 
 
 @pytest.mark.parametrize(
@@ -185,26 +201,31 @@ def test_hill_formula_text_formula(testinput, expected):
 # Tests for error handling
 
 
-@pytest.mark.xfail(raises=TypeError)
+#@pytest.mark.xfail(raises=TypeError)
 def test_charge_failed():
-    ChemFormula("H3O", "+")
+    with pytest.raises(TypeError):
+        ChemFormula("H3O", "+")
 
 
-@pytest.mark.xfail(raises=ValueError)
+#@pytest.mark.xfail(raises=ValueError)
 def test_brackets_closing():
-    ChemFormula("H2)O")
+    with pytest.raises(ValueError):
+        ChemFormula("H2)O")
 
 
-@pytest.mark.xfail(raises=ValueError)
+#@pytest.mark.xfail(raises=ValueError)
 def test_brackets():
-    ChemFormula("(H2)(O")
+    with pytest.raises(ValueError):
+        ChemFormula("(H2)(O")
 
 
-@pytest.mark.xfail(raises=ValueError)
+#@pytest.mark.xfail(raises=ValueError)
 def test_element():
-    ChemFormula("caO")
+    with pytest.raises(ValueError):
+        ChemFormula("caO")
 
 
-@pytest.mark.xfail(raises=ValueError)
+#@pytest.mark.xfail(raises=ValueError)
 def test_unknown_element():
-    ChemFormula("XyO")
+    with pytest.raises(ValueError):
+        ChemFormula("XyO")

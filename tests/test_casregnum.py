@@ -47,21 +47,21 @@ def test_cas_format_string(caffeine):
 # Tests for error handling
 
 
-@pytest.mark.xfail(raises=TypeError)
 def test_cas_invalid_input():
-    ChemFormula("H2O", 0, "Water", cas=6417.5)
+    with pytest.raises(TypeError):
+        ChemFormula("H2O", 0, "Water", cas=6417.5)
 
 
-@pytest.mark.xfail(raises=ValueError)
 def test_cas_format_unreadable():
-    ChemFormula("H2O", 0, "Water", cas="64 - 17 - 5")
+    with pytest.raises(ValueError):
+        ChemFormula("H2O", 0, "Water", cas="64 - 17 - 5")
 
 
-@pytest.mark.xfail(raises=ValueError)
 def test_cas_range_error():
-    ChemFormula("H2O", 0, "Water", cas=100)
+    with pytest.raises(ValueError):
+        ChemFormula("H2O", 0, "Water", cas=100)
 
 
-@pytest.mark.xfail(raises=ValueError)
 def test_cas_check_digit_error():
-    ChemFormula("H2O", 0, "Water", cas="64-17-6")
+    with pytest.raises(ValueError):
+        ChemFormula("H2O", 0, "Water", cas="64-17-6")

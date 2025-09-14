@@ -34,9 +34,9 @@ for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fraction.it
     print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
 print(f"\n--- {uranophane.name} and {muscarine.name} ---")
-print(f" Yes, {uranophane.name} is radioactive.") if uranophane.radioactive else print(f" No, {uranophane.name} is not radioactive.")  # noqa: E501
+print(f" Yes, {uranophane.name} is radioactive.") if uranophane.is_radioactive else print(f" No, {uranophane.name} is not radioactive.")  # noqa: E501
 print(f" Yes, {uranophane.name} is charged.") if uranophane.charged else print(f" No, {uranophane.name} is not charged.")
-print(f" Yes, {muscarine.name} is radioactive.") if muscarine.radioactive else print(f" No, {muscarine.name} is not radioactive.")  # noqa: E501
+print(f" Yes, {muscarine.name} is radioactive.") if muscarine.is_radioactive else print(f" No, {muscarine.name} is not radioactive.")  # noqa: E501
 print(f" Yes, {muscarine.name} is charged.") if muscarine.charged else print(f" No, {muscarine.name} is not charged.")
 
 print('\n--- Accessing Single Elements through FormulaObject.Element["Element_Symbol"] ---')

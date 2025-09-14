@@ -1,6 +1,6 @@
 [project]
 name = "chemformula"
-version = "1.4.1"
+version = "1.5.0"
 description = "ChemFormula is a Python class for working with chemical formulas. It allows parsing chemical formulas, generating formatted output strings and calculating formula weights."
 readme = "README.md"
 authors = [
@@ -9,12 +9,14 @@ authors = [
 maintainers = [
     {name = "Axel Müller", email = "molshape@gmx.net"},
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-    "casregnum",
+    "casregnum>=1.1.2",
 ]
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent",
     "License :: OSI Approved :: MIT License",
     "Topic :: Scientific/Engineering :: Chemistry",
@@ -34,11 +36,12 @@ build-backend = "hatchling.build"
 
 [tool.uv]
 dev-dependencies = [
-    "pytest",
-    "pytest-sugar",
-    "pytest-cov",
-    "ruff",
-    "twine",
+    "mypy>=1.18.1",
+    "pytest>=8.4.1",
+    "pytest-cov>=7.0.0",
+    "pytest-sugar>=1.1.1",
+    "ruff>=0.13.0",
+    "twine>=6.2.0",
 ]
 
 [tool.pytest.ini_options]
@@ -50,6 +53,10 @@ addopts = [
     "--strict-markers",
     "--strict-config",
     "--verbose",
+    "--cov=src",
+    "--cov-branch",
+    "--cov-report=term",
+    "--cov-report=xml",
 ]
 
 [tool.ruff]

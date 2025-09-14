@@ -1,15 +1,15 @@
-'''
+"""
 ATOMIC WEIGHTS OF THE ELEMENTS (2023)
 from the IUPAC Commission on Isotopic Abundances and Atomic Weights
 
 Based on the following reports:
-    - Pure Appl. Chem., 2016, 88, 265-291   (https://doi.org/10.1515/pac-2015-0305)
-    - Chem. Eng. News, 2015, 93(37), 9      (https://doi.org/10.1021/cen-09337-notw9)
-    - Pure Appl. Chem., 2016, 88, 139-153   (https://doi.org/10.1515/pac-2015-0502)
-    - Pure Appl. Chem., 2016, 88, 155-160   (https://doi.org/10.1515/pac-2015-0501)
-    - Pure Appl. Chem., 2016, 88, 1225-1229 (https://doi.org/10.1515/pac-2016-0501)
-    - Chem. Int., 2018, 40(4), 23-24        (https://doi.org/10.1515/ci-2018-0409)
-    - Chem. Int., 2020, 42(2), 31           (https://doi.org/10.1515/ci-2020-0222)
+    - Pure Appl. Chem., 2016, 88, 265-291    (https://doi.org/10.1515/pac-2015-0305)
+    - Chem. Eng. News, 2015, 93(37), 9       (https://doi.org/10.1021/cen-09337-notw9)
+    - Pure Appl. Chem., 2016, 88, 139-153    (https://doi.org/10.1515/pac-2015-0502)
+    - Pure Appl. Chem., 2016, 88, 155-160    (https://doi.org/10.1515/pac-2015-0501)
+    - Pure Appl. Chem., 2016, 88, 1225-1229  (https://doi.org/10.1515/pac-2016-0501)
+    - Chem. Int., 2018, 40(4), 23-24         (https://doi.org/10.1515/ci-2018-0409)
+    - Chem. Int., 2020, 42(2), 31            (https://doi.org/10.1515/ci-2020-0222)
     - Pure Appl. Chem., 2022, 94(5), 573-600 (https://doi.org/10.1515/pac-2019-0603)
     - Chem. Int., 2025, 47(1), 20-20         (https://doi.org/10.1515/ci-2025-0105)
 
@@ -17,10 +17,37 @@ Data taken from: https://iupac.qmul.ac.uk/AtWt/
 
 Quoted atomic weights are those suggested for materials where the origin of the sample is unknown.
 For radioactive elements the isotope with the longest half-life is quoted as an integer.
-'''
+
+Data for hydrogen isotopes taken from the AME2020 Atomic Mass Evaluation:
+
+    - Chinese Phys. C, 2021, (45), 030003   (https://doi.org/10.1088/1674-1137/abddaf)
+
+"""
+
+# Returns the list of valid element symbols, considering the AllowHydrogenIsotopes flag
+def get_valid_element_symbols() -> list[str]:
+    from .config import AllowHydrogenIsotopes
+    element_symbols = [
+        "H",                                                                                                  "He",
+        "Li", "Be",                                                             "B",  "C",  "N",  "O",  "F",  "Ne",
+        "Na", "Mg",                                                             "Al", "Si", "P",  "S",  "Cl", "Ar",
+        "K",  "Ca", "Sc", "Ti", "V",  "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr",
+        "Rb", "Sr", "Y",  "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I",  "Xe",
+        "Cs", "Ba", "La", "Hf", "Ta", "W",  "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn",
+        "Fr", "Ra", "Ac", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og",
+        # Lanthanides
+        "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu",
+        # Actinides
+        "Th", "Pa", "U",  "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr",
+    ]
+    if AllowHydrogenIsotopes:
+        element_symbols.extend(["D", "T"])
+    return element_symbols
 
 
-def atomic_weight(element):
+# Calculates the atomic weight of an element, False if element symbol does not exist
+def atomic_weight(element: str) -> float | bool:
+    from .config import AllowHydrogenIsotopes
     atomic_weight_table = {
         "H":    1.008,
         "He":   4.002602,
@@ -141,16 +168,41 @@ def atomic_weight(element):
         "Ts": 293,
         "Og": 294
     }
+    if AllowHydrogenIsotopes:
+        # Data taken from: Chinese Phys. C, 2021, (45), 030003-6, Table I (https://doi.org/10.1088/1674-1137/abddaf)
+        atomic_weight_table.update({
+            "D": 2.01410177784,
+            "T": 3.01604928132,
+        })
     # return atomic weight of the element symbol passed to the function, False if element symbol does not exist
     return float(atomic_weight_table[element]) if element in atomic_weight_table else False
 
-
-def radioactive_element(element):
+# Checks if an element is radioactive
+def isradioactive(element: str) -> bool:
+    from .config import AllowHydrogenIsotopes
     radioactive_elements = [
         "Tc",
+        "Pm",
         "Po", "At", "Rn",
-        "Fr", "Ra", "Pm", "Ac", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og",
+        "Fr", "Ra", "Ac", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og",
         "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr"
     ]
+    if AllowHydrogenIsotopes:
+        radioactive_elements.extend(["T"])
     # element is in the list of radioactive elements => True else False
     return element in radioactive_elements
+
+# Checks if an element symbol is only refering to a specific isotope (e.g. D for Deuterium or Tc for Technetium)
+def isisotope(element: str) -> bool:
+    from .config import AllowHydrogenIsotopes
+    isotope_elements = [
+        "Tc",
+        "Pm",
+        "Po", "At", "Rn",
+        "Fr", "Ra", "Ac", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og",
+        "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr"
+    ]
+    if AllowHydrogenIsotopes:
+        isotope_elements.extend(["D", "T"])
+    # element is in the list of elements with only isotopes => True else False
+    return element in isotope_elements

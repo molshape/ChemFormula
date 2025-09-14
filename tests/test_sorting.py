@@ -79,3 +79,16 @@ def test_for_lesser_than(testinput_left, testinput_right):
 
 def test_for_sorting(hydrocarbons, hydrocarbons_sorted):
     assert sorted(hydrocarbons) == hydrocarbons_sorted
+
+
+# Tests for error handling
+
+
+def test_equal_type_error(caffeine):
+    with pytest.raises(TypeError):
+        assert caffeine == "C8H10N4O2"
+
+
+def test_lesser_than_type_error(l_lacticacid):
+    with pytest.raises(TypeError):
+        assert l_lacticacid < 10326_41_7
